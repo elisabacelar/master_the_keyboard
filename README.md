@@ -1,14 +1,14 @@
 # master_the_keyboard
-## Equipe
+## Team
 * Elisa Santos Bacelar
 * Gabriel Ricardo Thomaz de Araújo
 * Guilherme Serra Camargo Gomes
 * Mike Dornas Oliveira
 
-## Escopo funcional
-O sistema desenvolvido será um aplicativo desktop offline para o aprimoramento de técnicas de digitação. Nele, serão disponibilizadas atividades nas quais o usuário deve digitar um trecho autogerado pelo sistema e serão coletados dados sobre sua performance, como: velocidade da digitação, precisão, porcentagem de erro para cada letra, entre outros. O usuário poderá visualizar esses dados e acompanhar seu progresso ao longo do tempo. O sistema suportará múltiplos usuários.
+## Functional scope
+This project will become a desktop app focused on practicing touch typing. It will contain many activities in which the user will be prompted to type an auto-generated text, the system will collect data regarding the user's performance such as accuracy and speed. The user will be able to visualize this data through insightful charts and follow their progress through time. The system will support multiple users.
 
-## Escopo tecnológico
-* Liguagem de programção: C++.
-* Bibliotecas: Qt, DTL.
-* Banco de Dados: MySql.
+## Technical scope
+* Programming Language: C++.
+* Main Libraries: Qt, DTL.
+* Data Base: MySql.
