@@ -23,5 +23,9 @@ int main(int argc, char *argv[])
     if (engine.rootObjects().isEmpty())
         return -1;
 
+    BackEnd* backend = engine.rootObjects()[0]->findChildren<BackEnd *>()[0];
+
+    backend->setDisplayedText("Long text to be written by the user of this application (master the keyboard).");
+
     return app.exec();
 }

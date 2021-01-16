@@ -1,4 +1,5 @@
 #include "backend.h"
+#include "textchecker.h"
 
 BackEnd::BackEnd(QObject *parent) :
     QObject(parent)
@@ -16,6 +17,26 @@ void BackEnd::setInputText(const QString &inputText)
 
     _inputText = inputText;
     emit inputTextChanged();
+    this->handleInputChange();
+}
+
+QString BackEnd::getDisplayedText()
+{
+    return _displayedText;
+}
+
+void BackEnd::setDisplayedText(const QString &displayedText)
+{
+    if (displayedText == _displayedText)
+        return;
+
+    _displayedText = displayedText;
+    emit displayedTextChanged();
+}
+
+void BackEnd::handleInputChange() {
+    QString text = "Long text to be written by the user of this application (master the keyboard).";
+    this->setDisplayedText(compareText(text,_inputText));
 }
 
 //#include "backend.h"

@@ -9,7 +9,10 @@
 class BackEnd : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString inputText READ getInputText WRITE setInputText NOTIFY inputTextChanged)
+    Q_PROPERTY(QString inputText READ getInputText WRITE setInputText NOTIFY \
+               inputTextChanged)
+    Q_PROPERTY(QString displayedText READ getDisplayedText WRITE setDisplayedText \
+               NOTIFY displayedTextChanged)
 
 
     public:
@@ -17,12 +20,17 @@ class BackEnd : public QObject
 
         QString getInputText();
         void setInputText(const QString &userName);
+        void handleInputChange();
+        QString getDisplayedText();
+        void setDisplayedText(const QString &userName);
 
     signals:
         void inputTextChanged();
+        void displayedTextChanged();
 
     private:
         QString _inputText;
+        QString _displayedText;
 };
 
 #endif // BACKEND_H

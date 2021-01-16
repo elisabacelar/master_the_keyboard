@@ -83,7 +83,8 @@ ApplicationWindow {
 
                 font.family: "serif";
                 font.pixelSize: 20;
-                text: backend.inputText;//qsTr("A long text to be typed by the user of the 'master the key board' application.");
+                textFormat: Text.RichText;
+                text: backend.displayedText;
                 width: parent.width;
                 wrapMode: Text.Wrap;
             }
