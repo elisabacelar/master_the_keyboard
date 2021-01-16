@@ -4,6 +4,6 @@
 #include <QObject>
 #include <QString>
 
-QString compareText(QString referenceString,QString otherString);
+QString compareText(QString& referenceString,QString& otherString);
 
 #endif // TEXTCHECKER_H

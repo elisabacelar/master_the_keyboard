@@ -1,6 +1,6 @@
 #include "textchecker.h"
 
-QString compareText(QString referenceString,QString otherString)
+QString compareText(QString& referenceString,QString& otherString)
 {
     int stringLength = otherString.length() < referenceString.length() ? otherString.length() : referenceString.length();
     QString stringBeginning, stringMiddle, stringEnd, stringResult;
