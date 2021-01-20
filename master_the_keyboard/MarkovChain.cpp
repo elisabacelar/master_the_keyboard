@@ -8,11 +8,11 @@
 #include <algorithm>
 #include <cassert>
 
+
 MarkovChain::MarkovChain()
     : m_keyLength(3)
 {
-    std::cout << "construtor\n";
-    readTextFile("brown.txt");
+    readTextFile("../master_the_keyboard/brown.txt");
     createDictionary();
 }
 MarkovChain::MarkovChain(unsigned int keyLength, std::string fileName)
@@ -24,7 +24,6 @@ MarkovChain::MarkovChain(unsigned int keyLength, std::string fileName)
 
 void MarkovChain::readTextFile (std::string fileName)
 {
-    std::cout << "reading file: "<< fileName << std::endl;
     std::ifstream file (fileName);
     assert(!file.fail());
     std::string word;
@@ -36,7 +35,6 @@ void MarkovChain::readTextFile (std::string fileName)
 
 void MarkovChain::createDictionary ()
 {
-    std::cout << "creating dictionary\n";
     for(std::vector<std::string>::iterator it = m_fileBuffer.begin(); it != m_fileBuffer.end(); it++)
     {
         std::string key;
@@ -66,9 +64,8 @@ void MarkovChain::createDictionary ()
     }
 }
 
-std::string MarkovChain::generateText (unsigned int numberOfWords)
+QString MarkovChain::generateText (unsigned int numberOfWords)
 {
-    std::cout << "generating text\n";
     std::map<std::string, std::vector<std::string> >::iterator it = m_dictionary.begin();
     srand (time(NULL));
     std::advance(it, rand() % m_dictionary.size());
@@ -84,6 +81,5 @@ std::string MarkovChain::generateText (unsigned int numberOfWords)
         key = newKey + " " + suffix;
         output += " " + suffix;
     }
-    std::cout << "Output:\n" << output << std::endl;
-    return output;
+    return QString::fromStdString(output);
 }

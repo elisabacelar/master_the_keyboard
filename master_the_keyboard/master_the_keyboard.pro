@@ -13,6 +13,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    MarkovChain.cpp \
         main.cpp \
     backend.cpp \
     textchecker.cpp
@@ -33,5 +34,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 QT += quickcontrols2
 
 HEADERS += \
+    MarkovChain.h \
     backend.h \
     textchecker.h
+
+DISTFILES +=

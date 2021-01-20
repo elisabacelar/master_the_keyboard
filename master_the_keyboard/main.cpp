@@ -2,6 +2,7 @@
 #include <QQuickStyle>
 #include <QQmlApplicationEngine>
 #include <backend.h>
+#include "MarkovChain.h"
 
 int main(int argc, char *argv[])
 {
@@ -25,7 +26,9 @@ int main(int argc, char *argv[])
 
     BackEnd* backend = engine.rootObjects()[0]->findChildren<BackEnd *>()[0];
 
-    backend->setDisplayedText("Long text to be written by the user of this application (master the keyboard).");
+    MarkovChain mChain;
+    QString text = mChain.generateText(20);
+    backend->setDisplayedText(text);
 
     return app.exec();
 }
