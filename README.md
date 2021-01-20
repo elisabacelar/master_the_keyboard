@@ -11,7 +11,7 @@ This project will become a desktop app focused on practicing touch typing. It wi
 ## Technical scope
 * Programming Language: C++.
 * Main Libraries: Qt, DTL.
-* Data Base: MySql.
+* Data Base: SQLite.
 
 ## Scrum Board
 We are using Trello to manage this project: https://trello.com/b/s0hT4Yzz/masterthekeyboard
