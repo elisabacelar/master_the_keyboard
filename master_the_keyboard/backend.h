@@ -18,6 +18,8 @@ class BackEnd : public QObject
     public:
         explicit BackEnd(QObject* parent = nullptr);
 
+        void setSampleText(const QString &sampleText);
+        QString getSampleText();
         QString getInputText();
         void setInputText(const QString &userName);
         void handleInputChange();
@@ -30,6 +32,7 @@ class BackEnd : public QObject
 
     private:
         QString _inputText;
+        QString _sampleText;
         QString _displayedText;
 };
 

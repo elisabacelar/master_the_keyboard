@@ -34,9 +34,23 @@ void BackEnd::setDisplayedText(const QString &displayedText)
     emit displayedTextChanged();
 }
 
+QString BackEnd::getSampleText()
+{
+    return _displayedText;
+}
+
+void BackEnd::setSampleText(const QString &sampleText)
+{
+    if (sampleText == _sampleText)
+        return;
+
+    _sampleText = sampleText;
+    this->setDisplayedText(sampleText);
+}
+
 void BackEnd::handleInputChange() {
-    QString text = "Long text to be written by the user of this application (master the keyboard).";
-    this->setDisplayedText(compareText(text,_inputText));
+    //QString text = "Long text to be written by the user of this application (master the keyboard).";
+    this->setDisplayedText(compareText(_sampleText,_inputText));
 }
 
 //#include "backend.h"

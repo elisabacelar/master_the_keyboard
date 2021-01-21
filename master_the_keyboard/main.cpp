@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
     MarkovChain mChain;
     QString text = mChain.generateText(20);
-    backend->setDisplayedText(text);
+    backend->setSampleText(text);
 
     return app.exec();
 }
