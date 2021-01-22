@@ -52,6 +52,17 @@ ApplicationWindow {
             anchors.fill: parent;
             color: "#FFFFCC";
             opacity: 0.9;
+
+            Button {
+                id: next_button
+                x: 541
+                y: 345
+                text: qsTr("Next")
+                onClicked: {
+                    userInput.clear()
+                    backend.setSampleText(20)
+                }
+            }
         }
         Text {
             id: title;

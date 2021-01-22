@@ -3,7 +3,10 @@
 
 BackEnd::BackEnd(QObject *parent) :
     QObject(parent)
-{}
+{
+    MarkovChain mChain;
+    _mChain = mChain;
+}
 
 QString BackEnd::getInputText()
 {
@@ -39,10 +42,9 @@ QString BackEnd::getSampleText()
     return _displayedText;
 }
 
-void BackEnd::setSampleText(const QString &sampleText)
+void BackEnd::setSampleText(int words)
 {
-    if (sampleText == _sampleText)
-        return;
+    QString sampleText = _mChain.generateText(words);
 
     _sampleText = sampleText;
     this->setDisplayedText(sampleText);

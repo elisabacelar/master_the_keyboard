@@ -5,6 +5,7 @@
 #include <QString>
 #include <QtQml>
 #include <qqml.h>
+#include "MarkovChain.h"
 
 class BackEnd : public QObject
 {
@@ -18,19 +19,18 @@ class BackEnd : public QObject
     public:
         explicit BackEnd(QObject* parent = nullptr);
 
-        void setSampleText(const QString &sampleText);
         QString getSampleText();
         QString getInputText();
-        void setInputText(const QString &userName);
+        Q_INVOKABLE void setInputText(const QString &userName);
         void handleInputChange();
         QString getDisplayedText();
         void setDisplayedText(const QString &userName);
-
+        Q_INVOKABLE void setSampleText(int words);
     signals:
         void inputTextChanged();
         void displayedTextChanged();
-
     private:
+        MarkovChain _mChain;
         QString _inputText;
         QString _sampleText;
         QString _displayedText;

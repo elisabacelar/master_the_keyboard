@@ -2,7 +2,6 @@
 #include <QQuickStyle>
 #include <QQmlApplicationEngine>
 #include <backend.h>
-#include "MarkovChain.h"
 
 int main(int argc, char *argv[])
 {
@@ -16,6 +15,7 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
+
     //Backend
 
     //engine.rootContext()->setContextProperty("inputText", QDateTime::currentDateTime());
@@ -26,9 +26,7 @@ int main(int argc, char *argv[])
 
     BackEnd* backend = engine.rootObjects()[0]->findChildren<BackEnd *>()[0];
 
-    MarkovChain mChain;
-    QString text = mChain.generateText(20);
-    backend->setSampleText(text);
+    backend->setSampleText(20);
 
     return app.exec();
 }
