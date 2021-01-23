@@ -5,6 +5,8 @@
 #include <QString>
 #include <QtQml>
 #include <qqml.h>
+#include <QtSql>
+#include <QDebug>
 #include "MarkovChain.h"
 
 class BackEnd : public QObject
@@ -26,6 +28,8 @@ class BackEnd : public QObject
         QString getDisplayedText();
         void setDisplayedText(const QString &userName);
         Q_INVOKABLE void setSampleText(int words);
+        bool setupDb(QString dbname);
+        QSqlDatabase db;
     signals:
         void inputTextChanged();
         void displayedTextChanged();
