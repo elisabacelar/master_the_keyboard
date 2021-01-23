@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
     BackEnd* backend = engine.rootObjects()[0]->findChildren<BackEnd *>()[0];
 
     backend->setSampleText(20);
+    backend->setupDb("../master_the_keyboard/dataMtk.db");
 
     return app.exec();
 }
