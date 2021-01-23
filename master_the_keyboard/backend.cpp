@@ -55,6 +55,31 @@ void BackEnd::handleInputChange() {
     this->setDisplayedText(compareText(_sampleText,_inputText));
 }
 
+void BackEnd::setupDb(QString dbName)
+{
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(dbName);
+
+    if(!db.open())
+    {
+        qDebug()<<"Failed to open database";
+        return;
+    }
+
+    qDebug()<<"Database open";
+    foreach (QString table, db.tables())
+    {
+        if(table == "dbUsers")
+        {
+            qDebug()<<"Table dbUsers found";
+            return;
+        }
+    }
+    qDebug()<<"Table dbUsers not found, creating...";
+    QSqlQuery query(db);
+    query.exec("CREATE TABLE dbUsers (id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(16), password VARCHAR(16), time DOUBLE)");
+}
+
 //#include "backend.h"
 
 //class BackEndData : public QSharedData
