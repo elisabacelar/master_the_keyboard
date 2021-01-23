@@ -28,7 +28,7 @@ class BackEnd : public QObject
         QString getDisplayedText();
         void setDisplayedText(const QString &userName);
         Q_INVOKABLE void setSampleText(int words);
-        bool setupDb(QString dbname);
+        void setupDb(QString dbname);
         QSqlDatabase db;
     signals:
         void inputTextChanged();
