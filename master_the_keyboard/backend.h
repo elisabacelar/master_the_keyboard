@@ -5,7 +5,7 @@
 #include <QString>
 #include <QtQml>
 #include <qqml.h>
-#include "MarkovChain.h"
+#include "textchecker.h"
 
 class BackEnd : public QObject
 {
@@ -14,26 +14,54 @@ class BackEnd : public QObject
                inputTextChanged)
     Q_PROPERTY(QString displayedText READ getDisplayedText WRITE setDisplayedText \
                NOTIFY displayedTextChanged)
+    Q_PROPERTY(bool loginWindowVisibility READ isLoginWindowVisible WRITE \
+               setLoginWindowVisibility NOTIFY loginWindowVisibilityChanged)
+    Q_PROPERTY(QString userNameInput READ getUserName WRITE setUserName NOTIFY \
+               userNameChanged)
+    Q_PROPERTY(QString passwordInput READ getPassword WRITE setPassword NOTIFY \
+               passwordChanged)
+    Q_PROPERTY(QString correctness READ getCorrectness WRITE setCorrectness NOTIFY \
+               correctnessChanged)
 
 
     public:
         explicit BackEnd(QObject* parent = nullptr);
 
-        QString getSampleText();
         QString getInputText();
-        Q_INVOKABLE void setInputText(const QString &userName);
+        void setInputText(const QString &inputText);
         void handleInputChange();
         QString getDisplayedText();
-        void setDisplayedText(const QString &userName);
-        Q_INVOKABLE void setSampleText(int words);
+        void setDisplayedText(const QString &text);
+        QString getReferenceText();
+        void setReferenceText(const QString &text);
+        bool isLoginWindowVisible();
+        void setLoginWindowVisibility(bool visibility);
+        void handleNewSession();
+        void handleNewUser();
+        QString getUserName();
+        void setUserName(const QString &userName);
+        QString getPassword();
+        void setPassword(const QString &password);
+        QString getCorrectness();
+        void setCorrectness(const QString &correctness);
+
+
     signals:
         void inputTextChanged();
         void displayedTextChanged();
+        void loginWindowVisibilityChanged();
+        void userNameChanged();
+        void passwordChanged();
+        void correctnessChanged();
+
     private:
-        MarkovChain _mChain;
         QString _inputText;
-        QString _sampleText;
         QString _displayedText;
+        bool _loginWindowVisibility;
+        QString _userNameInput;
+        QString _passwordInput;
+        QString _correctness;
+        Metrics _textVerification;
 };
 
 #endif // BACKEND_H

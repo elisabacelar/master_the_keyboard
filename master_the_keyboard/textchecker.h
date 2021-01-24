@@ -3,7 +3,23 @@
 
 #include <QObject>
 #include <QString>
+#include <QtQml>
+#include <qqml.h>
 
-QString compareText(QString& referenceString,QString& otherString);
+class Metrics {
+    public:
+        QString getCorrectness();
+        void updateCorrectness(int errors, int hits);
+        void setCurrentText(QString text);
+        QString getCurrentText();
+        int getCurrentTextLength();
+        QString compareText(QString& otherString);
+    private:
+        int _numberOfErrors;
+        int _textLength;
+        int _currentNumberOfErrors;
+        int _currentNumberOfHits;
+        QString _text;
+};
 
 #endif // TEXTCHECKER_H

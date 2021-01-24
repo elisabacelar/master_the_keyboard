@@ -3,12 +3,9 @@
         <file>main.qml</file>
         <file>images/background.jpg</file>
         <file>images/background.png</file>
-        <file>main.cpp</file>
         <file>backend.cpp</file>
         <file>backend.h</file>
-        <file>brown.txt</file>
-        <file>MarkovChain.cpp</file>
-        <file>MarkovChain.h</file>
+        <file>main.cpp</file>
         <file>textchecker.cpp</file>
         <file>textchecker.h</file>
     </qresource>

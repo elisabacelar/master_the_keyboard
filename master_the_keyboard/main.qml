@@ -29,10 +29,12 @@ ApplicationWindow {
 
     height: 650;
     title: qsTr("Master The Keyboard");
-    visible: true;
+    visible: !loginWindow.visible;
     width: 1000;
     BackEnd {
         id: backend;
+
+        loginWindowVisibility: loginWindow.visible;
     }
     Image {
         id:backgroundImage;
@@ -52,17 +54,6 @@ ApplicationWindow {
             anchors.fill: parent;
             color: "#FFFFCC";
             opacity: 0.9;
-
-            Button {
-                id: next_button
-                x: 541
-                y: 345
-                text: qsTr("Next")
-                onClicked: {
-                    userInput.clear()
-                    backend.setSampleText(20)
-                }
-            }
         }
         Text {
             id: title;
@@ -74,14 +65,68 @@ ApplicationWindow {
             y: parent.height/20;
         }
         Item {
+            id: correctnessDisplay;
+
+            height: correctnessValue.height;
+            width: 1*textDisplay.width/5;
+            x: textDisplay.x+textDisplay.width/5
+            y: 1*(parent.height-height)/4;
+            Rectangle {
+                id: correctnessDisplayBorder;
+
+                border.color: "#000000";
+                color: "transparent";
+                height: parent.height;
+                width: parent.width;
+
+            }
+            Text {
+                id: correctnessValue;
+
+                font.family: "serif";
+                font.pixelSize: 32;
+                textFormat: Text.RichText;
+                text: backend.correctness;
+                width: parent.width;
+                wrapMode: Text.Wrap;
+            }
+        }
+        Item {
+            id: timeDisplay;
+
+            height: timeValue.height;
+            width: 1*textDisplay.width/5;
+            x: textDisplay.x+3*textDisplay.width/5
+            y: 1*(parent.height-height)/4;
+            Rectangle {
+                id: timeDisplayBorder;
+
+                border.color: "#000000";
+                color: "transparent";
+                height: parent.height;
+                width: parent.width;
+
+            }
+            Text {
+                id: timeValue;
+
+                font.family: "serif";
+                font.pixelSize: 32;
+                textFormat: Text.RichText;
+                text: backend.correctness;
+                width: parent.width;
+                wrapMode: Text.Wrap;
+            }
+        }
+        Item {
             id: textDisplay;
 
             height: outputText.height;
             width: 3*parent.width/5;
             x: 1*parent.width/5;
-            y: (parent.height-height)/2;
+            y: 7*(parent.height-height)/12;
             Rectangle {
-                id: displayBorder;
+                id: textDisplayBorder;
 
                 border.color: "#000000";
                 color: "transparent";
@@ -131,5 +176,88 @@ ApplicationWindow {
         text: qsTr("Image by Michael Schwarzenberger from Pixabay <https://pixabay.com/>");
         x: parent.width-width;
         y: parent.height-height;
+    }
+    Button {
+        id: newUserButton;
+
+        height: loginButton.height;
+        onClicked: loginWindow.showNormal();
+        text: qsTr("New User");
+        width: 100;
+    }
+    Window {
+        id: loginWindow;
+        color: "#CCCCCC";
+        height: 200;
+        title: qsTr("Login");
+        visible: true;
+        width: 200;
+        x: (root.width-width)/2;
+        y: (root.height-height)/2;
+        Rectangle {
+            id: userNameInputBox;
+
+            color: "#FFFFFF";
+            height: 25;
+            width: 180;
+            x: parent.width/20;
+            y: 3*parent.height/10;
+            TextField {
+                id: userNameInputText;
+
+                anchors.fill: parent;
+                onFocusChanged: backend.userNameInput = text;
+                width: parent.width;
+                wrapMode: Text.Wrap;
+                Text {
+                    text: "Username";
+                    color: "#AAAAAA"
+                    visible: !parent.text
+                }
+            }
+        }
+        Rectangle {
+            id: passwordInputBox;
+
+            color: "#FFFFFF";
+            height: 25;
+            width: 180;
+            x: parent.width/20;
+            y: 9*parent.height/20;
+            TextField {
+                id: passwordInputText;
+
+                anchors.fill: parent;
+                echoMode: TextInput.Password;
+                onFocusChanged: backend.passwordInput = text;
+                width: parent.width;
+                wrapMode: Text.Wrap;
+                Text {
+                    text: "Password";
+                    color: "#AAAAAA"
+                    visible: !parent.text
+                }
+            }
+        }
+        Button {
+            id: loginButton;
+
+            height: 25;
+            onClicked: loginWindow.close();
+            text: qsTr("Login");
+            width: 70;
+            x: passwordInputBox.x+passwordInputBox.width/18;
+            y: 7*parent.height/10;
+        }
+        Button {
+            id: registerButton;
+
+            height: 25;
+            onClicked: loginWindow.close();
+            text: qsTr("Register");
+            width: 70;
+            x: passwordInputBox.x+10*passwordInputBox.width/18;
+            y: 7*parent.height/10;
+        }
     }
 }

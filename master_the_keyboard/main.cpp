@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-
     //Backend
 
     //engine.rootContext()->setContextProperty("inputText", QDateTime::currentDateTime());
@@ -26,7 +25,7 @@ int main(int argc, char *argv[])
 
     BackEnd* backend = engine.rootObjects()[0]->findChildren<BackEnd *>()[0];
 
-    backend->setSampleText(20);
+    backend->setReferenceText("Long text to be written by the user of this application (master the keyboard).");
 
     return app.exec();
 }
