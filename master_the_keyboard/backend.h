@@ -23,12 +23,13 @@ class BackEnd : public QObject
 
         QString getSampleText();
         QString getInputText();
-        Q_INVOKABLE void setInputText(const QString &userName);
+        void setInputText(const QString &userName);
         void handleInputChange();
         QString getDisplayedText();
         void setDisplayedText(const QString &userName);
-        Q_INVOKABLE void setSampleText(int words);
+        void setSampleText(int words);
         void setupDb(QString dbname);
+        Q_INVOKABLE void resetText();
         QSqlDatabase db;
     signals:
         void inputTextChanged();

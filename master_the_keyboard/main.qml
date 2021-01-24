@@ -59,8 +59,7 @@ ApplicationWindow {
                 y: 345
                 text: qsTr("Next")
                 onClicked: {
-                    userInput.clear()
-                    backend.setSampleText(20)
+                    backend.resetText()
                 }
             }
         }
@@ -108,18 +107,17 @@ ApplicationWindow {
             width: 9*parent.width/10;
             x: parent.width/20;
             y: 8*parent.height/10;
-            TextEdit {
+            TextField {
                 id: userInput;
 
+                text: backend.inputText
+                onTextChanged: backend.inputText = text
+                placeholderText: qsTr("Start typing!")
+                anchors.centerIn: parent
                 anchors.fill: parent;
-                onTextChanged: backend.inputText = text;
                 width: parent.width;
                 wrapMode: Text.Wrap;
-                Text {
-                    text: "Type something...";
-                    color: "#AAAAAA"
-                    visible: !parent.text
-                }
+                visible: !parent.text
             }
         }
     }

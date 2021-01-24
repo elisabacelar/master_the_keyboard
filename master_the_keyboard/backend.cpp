@@ -52,7 +52,13 @@ void BackEnd::setSampleText(int words)
 
 void BackEnd::handleInputChange() {
     //QString text = "Long text to be written by the user of this application (master the keyboard).";
-    this->setDisplayedText(compareText(_sampleText,_inputText));
+
+    std::pair<int, QString> result = compareText(_sampleText,_inputText);
+    this->setDisplayedText(result.second);
+
+    // reset text automatically if the user typed everything correctly
+    if (_sampleText.length() == _inputText.length() && _sampleText.length() == result.first)
+        this->resetText();
 }
 
 void BackEnd::setupDb(QString dbName)
@@ -78,6 +84,12 @@ void BackEnd::setupDb(QString dbName)
     qDebug()<<"Table dbUsers not found, creating...";
     QSqlQuery query(db);
     query.exec("CREATE TABLE dbUsers (id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(16), password VARCHAR(16), time DOUBLE)");
+}
+
+void BackEnd::resetText()
+{
+    setInputText(QString());
+    setSampleText(20);
 }
 
 //#include "backend.h"

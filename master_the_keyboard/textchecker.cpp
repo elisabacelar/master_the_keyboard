@@ -1,6 +1,6 @@
 #include "textchecker.h"
 
-QString compareText(QString& referenceString,QString& otherString)
+std::pair<int, QString> compareText(QString& referenceString,QString& otherString)
 {
     int stringLength = otherString.length() < referenceString.length() ? otherString.length() : referenceString.length();
     QString stringBeginning, stringMiddle, stringEnd, stringResult, stringModifier;
@@ -9,6 +9,7 @@ QString compareText(QString& referenceString,QString& otherString)
     int stringRemovedLength = 0;
     int domainStart;
     int it = 0;
+    int countCorrect = 0;
     while(it<stringLength)
     {
         domainStart = it;
@@ -30,6 +31,7 @@ QString compareText(QString& referenceString,QString& otherString)
                 if(it==stringLength)
                     break;
                 ++it;
+                ++countCorrect;
             }
             while(otherString[it]==referenceString[it]);
         }
@@ -44,5 +46,5 @@ QString compareText(QString& referenceString,QString& otherString)
         stringResult.append("</span>");
     }
     stringResult.append(stringEnd);
-    return stringResult;
+    return std::make_pair(countCorrect, stringResult);
 }
