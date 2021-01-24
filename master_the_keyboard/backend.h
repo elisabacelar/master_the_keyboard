@@ -9,8 +9,6 @@
 #include <QDebug>
 #include "MarkovChain.h"
 
-typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
-
 class BackEnd : public QObject
 {
     Q_OBJECT
@@ -25,15 +23,15 @@ class BackEnd : public QObject
 
         QString getSampleText();
         QString getInputText();
-        void setInputText(const QString &userName);
+        Q_INVOKABLE void setInputText(const QString &userName);
         void handleInputChange();
         QString getDisplayedText();
         void setDisplayedText(const QString &userName);
-        void setSampleText(int words);
+        Q_INVOKABLE void setSampleText(int words);
         void setupDb(QString dbname);
-        Q_INVOKABLE void resetText();
-        void generateResult(int nCorrect, int nTotal);
         QSqlDatabase db;
+        Q_INVOKABLE bool signInUser(QString user, QString pass);
+        Q_INVOKABLE bool registerUser(QString user, QString pass);
     signals:
         void inputTextChanged();
         void displayedTextChanged();
@@ -42,35 +40,5 @@ class BackEnd : public QObject
         QString _inputText;
         QString _sampleText;
         QString _displayedText;
-        TimePoint _exerciseStartTime;
-        bool _isExerciseOngoing {false};
+        QString _currentUser;
 };
-
-#endif // BACKEND_H
-
-//#include <QDeclarativeItem>
-//#include <QMainWindow>
-//#include <QQuickItem>
-//#include <QSharedDataPointer>
-//#include <QWidget>
-
-//class BackEnd : public QObject {
-//    Q_OBJECT
-
-//    public:
-//        explicit BackEnd(QObject *parent = nullptr);
-
-//        QString userName();
-//        void setUserName(const QString &userName);
-
-//    signals:
-//        void userNameChanged();
-
-//    private:
-//        QString m_userName;
-//};
-
-
-
-//class BackEndData;
-
