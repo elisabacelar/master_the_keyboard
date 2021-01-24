@@ -12,7 +12,7 @@
 MarkovChain::MarkovChain()
     : m_keyLength(3)
 {
-    readTextFile("../master_the_keyboard/brown.txt");
+    readTextFile("qrc:/brown.txt");
     createDictionary();
 }
 MarkovChain::MarkovChain(unsigned int keyLength, std::string fileName)
