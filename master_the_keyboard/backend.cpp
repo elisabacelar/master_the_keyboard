@@ -1,6 +1,5 @@
 #include "backend.h"
 #include "textchecker.h"
-#include "ExerciseResult.h"
 
 BackEnd::BackEnd(QObject *parent) :
     QObject(parent)
@@ -23,13 +22,20 @@ void BackEnd::setInputText(const QString &inputText)
     if (!_isExerciseOngoing)
     {
         _isExerciseOngoing = true;
-        _exerciseStartTime = std::chrono::high_resolution_clock::now();
+        _textVerification.setStartTime();
 
         qDebug()<< "Started exercise.";
     }
     _inputText = inputText;
     emit inputTextChanged();
     this->handleInputChange();
+}
+
+void BackEnd::handleInputChange()
+{
+    this->setDisplayedText(_textVerification.compareText(_sampleText,_inputText));
+    this->setCorrectness(_textVerification.getCorrectness());
+    this->setSpeed(_textVerification.getSpeed());
 }
 
 QString BackEnd::getDisplayedText()
@@ -57,23 +63,51 @@ void BackEnd::setSampleText(int words)
     _sampleText = sampleText;
 
     // Pass through compareText to escape HTML characters
-    std::pair<int, QString> result = compareText(sampleText,QString());
-    this->setDisplayedText(result.second);
+    QString result = _textVerification.compareText(sampleText,QString());
+    this->setDisplayedText(result);
 }
 
-void BackEnd::handleInputChange() {
-    //QString text = "Long text to be written by the user of this application (master the keyboard).";
-
-    std::pair<int, QString> result = compareText(_sampleText,_inputText);
-    this->setDisplayedText(result.second);
-
-    // reset text automatically if the user typed everything
-    if (_sampleText.length() == _inputText.length())
-    {
-        this->generateResult(result.first, _sampleText.length());
-        this->resetText();
-    }
+bool BackEnd::isLoginWindowVisible()
+{
+    return _loginWindowVisibility;
 }
+
+void BackEnd::setLoginWindowVisibility(bool visibility)
+{
+    if (visibility == _loginWindowVisibility)
+        return;
+
+    if(visibility)
+        this->handleNewUser();
+    else
+        this->handleNewSession();
+
+    _loginWindowVisibility = visibility;
+    emit loginWindowVisibilityChanged();
+}
+
+void BackEnd::handleNewSession()
+{
+    qDebug()<<"Started new session, username: " << this->getUserName();
+}
+
+void BackEnd::handleNewUser()
+{}
+
+QString BackEnd::getUserName()
+{
+    return _userNameInput;
+}
+
+void BackEnd::setUserName(const QString &userName)
+{
+    if (userName == _userNameInput)
+        return;
+
+    _userNameInput = userName;
+    emit userNameChanged();
+}
+
 
 void BackEnd::setupDb(QString dbName)
 {
@@ -100,52 +134,38 @@ void BackEnd::setupDb(QString dbName)
     query.exec("CREATE TABLE dbUsers (id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(16), password VARCHAR(16), time DOUBLE)");
 }
 
-void BackEnd::generateResult(int nCorrect, int nTotal)
-{
-    using namespace std::chrono;
-
-    TimePoint exerciseEndTime = high_resolution_clock::now();
-    unsigned duration = duration_cast<seconds>(exerciseEndTime - _exerciseStartTime).count();
-    ExerciseResult R (nCorrect, nTotal, duration);
-
-    qDebug() << "Finished exercise, results:";
-    qDebug() << "\tTime [s]: " << duration << ", Character count: " << nCorrect << "";
-    qDebug() << "\tSpeed [WPM]: " << R.getSpeedWPM() << " WPM, Accuracy: " << R.getFormattedAccuracy() << " %\n";
-}
-
 void BackEnd::resetText()
 {
+    _textVerification.resetMetrics();
     setInputText(QString());
     _isExerciseOngoing = false; // this will be set to true after next call of setInputText
     setSampleText(20);
 }
 
-//#include "backend.h"
+QString BackEnd::getCorrectness()
+{
+    return _correctness;
+}
 
-//class BackEndData : public QSharedData
-//{
-//public:
+void BackEnd::setCorrectness(const QString &correctness)
+{
+    if (correctness == _correctness)
+        return;
 
-//};
+    _correctness = correctness;
+    emit correctnessChanged();
+}
 
-//BackEnd::BackEnd(QObject *parent) : QObject(parent), data(new BackEndData)
-//{
+QString BackEnd::getSpeed()
+{
+    return _speed;
+}
 
-//}
+void BackEnd::setSpeed(const QString &speed)
+{
+    if (speed == _speed)
+        return;
 
-//BackEnd::BackEnd(const BackEnd &rhs) : data(rhs.data)
-//{
-
-//}
-
-//BackEnd &BackEnd::operator=(const BackEnd &rhs)
-//{
-//    if (this != &rhs)
-//        data.operator=(rhs.data);
-//    return *this;
-//}
-
-//BackEnd::~BackEnd()
-//{
-
-//}
+    _speed = speed;
+    emit speedChanged();
+}
