@@ -8,6 +8,7 @@
 #include <QtSql>
 #include <QDebug>
 #include "MarkovChain.h"
+#include "textchecker.h"
 
 typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
 
@@ -18,7 +19,14 @@ class BackEnd : public QObject
                inputTextChanged)
     Q_PROPERTY(QString displayedText READ getDisplayedText WRITE setDisplayedText \
                NOTIFY displayedTextChanged)
-
+    Q_PROPERTY(bool loginWindowVisibility READ isLoginWindowVisible WRITE \
+               setLoginWindowVisibility NOTIFY loginWindowVisibilityChanged)
+    Q_PROPERTY(QString userNameInput READ getUserName WRITE setUserName NOTIFY \
+               userNameChanged)
+    Q_PROPERTY(QString correctness READ getCorrectness WRITE setCorrectness NOTIFY \
+               correctnessChanged)
+    Q_PROPERTY(QString speed READ getSpeed WRITE setSpeed NOTIFY \
+               speedChanged)
 
     public:
         explicit BackEnd(QObject* parent = nullptr);
@@ -32,45 +40,36 @@ class BackEnd : public QObject
         void setSampleText(int words);
         void setupDb(QString dbname);
         Q_INVOKABLE void resetText();
-        void generateResult(int nCorrect, int nTotal);
+        bool isLoginWindowVisible();
+        void setLoginWindowVisibility(bool visibility);
+        void handleNewSession();
+        void handleNewUser();
+        QString getUserName();
+        void setUserName(const QString &userName);
+        QString getCorrectness();
+        void setCorrectness(const QString &correctness);
+        QString getSpeed();
+        void setSpeed(const QString &speed);
         QSqlDatabase db;
     signals:
         void inputTextChanged();
         void displayedTextChanged();
+        void loginWindowVisibilityChanged();
+        void userNameChanged();
+        void correctnessChanged();
+        void speedChanged();
     private:
         MarkovChain _mChain;
         QString _inputText;
         QString _sampleText;
         QString _displayedText;
+        bool _loginWindowVisibility;
+        QString _userNameInput;
+        QString _correctness;
+        QString _speed;
+        Metrics _textVerification;
         TimePoint _exerciseStartTime;
         bool _isExerciseOngoing {false};
 };
 
 #endif // BACKEND_H
-
-//#include <QDeclarativeItem>
-//#include <QMainWindow>
-//#include <QQuickItem>
-//#include <QSharedDataPointer>
-//#include <QWidget>
-
-//class BackEnd : public QObject {
-//    Q_OBJECT
-
-//    public:
-//        explicit BackEnd(QObject *parent = nullptr);
-
-//        QString userName();
-//        void setUserName(const QString &userName);
-
-//    signals:
-//        void userNameChanged();
-
-//    private:
-//        QString m_userName;
-//};
-
-
-
-//class BackEndData;
-
