@@ -75,6 +75,26 @@ void BackEnd::handleInputChange() {
     }
 }
 
+void BackEnd::generateResult(int nCorrect, int nTotal)
+{
+    using namespace std::chrono;
+
+    TimePoint exerciseEndTime = high_resolution_clock::now();
+    unsigned duration = duration_cast<seconds>(exerciseEndTime - _exerciseStartTime).count();
+    ExerciseResult R (nCorrect, nTotal, duration);
+
+    qDebug() << "Finished exercise, results:";
+    qDebug() << "\tTime [s]: " << duration << ", Character count: " << nCorrect << "";
+    qDebug() << "\tSpeed [WPM]: " << R.getSpeedWPM() << " WPM, Accuracy: " << R.getFormattedAccuracy() << " %\n";
+}
+
+void BackEnd::resetText()
+{
+    setInputText(QString());
+    _isExerciseOngoing = false; // this will be set to true after next call of setInputText
+    setSampleText(20);
+}
+
 void BackEnd::setupDb(QString dbName)
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
@@ -97,55 +117,61 @@ void BackEnd::setupDb(QString dbName)
     }
     qDebug()<<"Table dbUsers not found, creating...";
     QSqlQuery query(db);
-    query.exec("CREATE TABLE dbUsers (id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(16), password VARCHAR(16), time DOUBLE)");
+    query.exec("CREATE TABLE dbUsers (id INTEGER PRIMARY KEY AUTOINCREMENT, "
+               "username VARCHAR(16), password VARCHAR(16), time DOUBLE)");
 }
 
-void BackEnd::generateResult(int nCorrect, int nTotal)
+bool BackEnd::signInUser(QString user, QString pass)
 {
-    using namespace std::chrono;
+    QSqlQuery query(db);
+    if(!query.exec("select * from dbUsers where username='"+user+"'"))
+    {
+        qDebug()<<"Error accessing database";
+        return false;
+    }
 
-    TimePoint exerciseEndTime = high_resolution_clock::now();
-    unsigned duration = duration_cast<seconds>(exerciseEndTime - _exerciseStartTime).count();
-    ExerciseResult R (nCorrect, nTotal, duration);
+    if(query.next())
+    {
+        if(pass == query.value(2))
+        {
+            _currentUser = user;
+            qDebug()<<"user logged";
+            return true;
+        }
+        else
+        {
+            qDebug()<<"Incorrect password";
+            return false;
+        }
+    }
 
-    qDebug() << "Finished exercise, results:";
-    qDebug() << "\tTime [s]: " << duration << ", Character count: " << nCorrect << "";
-    qDebug() << "\tSpeed [WPM]: " << R.getSpeedWPM() << " WPM, Accuracy: " << R.getFormattedAccuracy() << " %\n";
+    qDebug()<<"User not found";
+    return false;
 }
-
-void BackEnd::resetText()
+bool BackEnd::registerUser(QString user, QString pass)
 {
-    setInputText(QString());
-    _isExerciseOngoing = false; // this will be set to true after next call of setInputText
-    setSampleText(20);
+    QSqlQuery query(db);
+    if(!query.exec("select * from dbUsers where username='"+user+"'"))
+    {
+        qDebug()<<"Error accessing database";
+        return false;
+    }
+
+    if(query.next())
+    {
+        qDebug()<<"User already registered.";
+        return false;
+    }
+    else
+    {
+        query.prepare("insert into dbUsers (username,password) values ('"+user+"','"+pass+"')");
+        if(!query.exec())
+        {
+            qDebug()<<"Error registering user";
+            return false;
+        }
+        _currentUser = user;
+        qDebug()<<"User successfully registered";
+        return true;
+    }
 }
-
-//#include "backend.h"
-
-//class BackEndData : public QSharedData
-//{
-//public:
-
-//};
-
-//BackEnd::BackEnd(QObject *parent) : QObject(parent), data(new BackEndData)
-//{
-
-//}
-
-//BackEnd::BackEnd(const BackEnd &rhs) : data(rhs.data)
-//{
-
-//}
-
-//BackEnd &BackEnd::operator=(const BackEnd &rhs)
-//{
-//    if (this != &rhs)
-//        data.operator=(rhs.data);
-//    return *this;
-//}
-
-//BackEnd::~BackEnd()
-//{
-
-//}
