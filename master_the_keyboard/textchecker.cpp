@@ -1,46 +1,42 @@
 #include "textchecker.h"
 
-std::pair<int, QString> compareText(QString& reference, QString& other)
+std::pair<int, QString> compareText(const QString& reference, const QString& other)
 {
     QString result, modifier;
 
-    int length = other.length() < reference.length() ? other.length() : reference.length();
-    int domainStart;
-    int it = 0;
+    int domainStart = 0;
     int countCorrect = 0;
-
-    while(it<length)
+    int length = other.length() < reference.length()
+                    ? other.length()
+                    : reference.length();
+    int i = 0;
+    while (i < length)
     {
-        domainStart = it;
-        if(other[it]!=reference[it])
+        domainStart = i;
+        if (other[i] != reference[i])
         {
             modifier = "<span style=\"color:#FF0C32;text-decoration:line-through;\">";
             do
             {
-                if(it==length)
-                    break;
-                ++it;
-            } while(other[it]!=reference[it]);
+                if(++i == length) break;
+            } while (other[i] != reference[i]);
         }
         else
         {
             modifier = "<span style=\"color:#0CFF32;\">";
             do
             {
-                if(it==length)
-                    break;
-                ++it;
                 ++countCorrect;
-            }
-            while(other[it]==reference[it]);
+                if(++i == length) break;
+            } while (other[i] == reference[i]);
         }
-
-        QString portion = reference.mid(domainStart, it - domainStart);
-        result.append(modifier).append(portion).append("</span>");
+        result.append(modifier)
+              .append(reference.mid(domainStart, i - domainStart).toHtmlEscaped())
+              .append("</span>");
     }
-
-    if (length < reference.length()){
-        result.append(reference.right(reference.length() - length));
+    if (length < reference.length())
+    {
+        result.append(reference.right(reference.length() - length).toHtmlEscaped());
     }
     return std::make_pair(countCorrect, result);
 }

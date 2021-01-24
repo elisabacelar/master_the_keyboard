@@ -54,9 +54,11 @@ QString BackEnd::getSampleText()
 void BackEnd::setSampleText(int words)
 {
     QString sampleText = _mChain.generateText(words);
-
     _sampleText = sampleText;
-    this->setDisplayedText(sampleText);
+
+    // Pass through compareText to escape HTML characters
+    std::pair<int, QString> result = compareText(sampleText,QString());
+    this->setDisplayedText(result.second);
 }
 
 void BackEnd::handleInputChange() {

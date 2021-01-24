@@ -3,6 +3,6 @@
 
 #include <QString>
 
-std::pair<int, QString> compareText(QString& reference, QString& other);
+std::pair<int, QString> compareText(const QString& reference, const QString& other);
 
 #endif // TEXTCHECKER_H
