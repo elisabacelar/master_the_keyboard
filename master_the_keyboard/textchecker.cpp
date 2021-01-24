@@ -1,50 +1,46 @@
 #include "textchecker.h"
 
-std::pair<int, QString> compareText(QString& referenceString,QString& otherString)
+std::pair<int, QString> compareText(QString& reference, QString& other)
 {
-    int stringLength = otherString.length() < referenceString.length() ? otherString.length() : referenceString.length();
-    QString stringBeginning, stringMiddle, stringEnd, stringResult, stringModifier;
-    stringResult = "";
-    stringEnd = referenceString;
-    int stringRemovedLength = 0;
+    QString result, modifier;
+
+    int length = other.length() < reference.length() ? other.length() : reference.length();
     int domainStart;
     int it = 0;
     int countCorrect = 0;
-    while(it<stringLength)
+
+    while(it<length)
     {
         domainStart = it;
-        if(otherString[it]!=referenceString[it])
+        if(other[it]!=reference[it])
         {
-            stringModifier = "<span style=\"color:#FF0C32;text-decoration:line-through;\">";
+            modifier = "<span style=\"color:#FF0C32;text-decoration:line-through;\">";
             do
             {
-                if(it==stringLength)
+                if(it==length)
                     break;
                 ++it;
-            } while(otherString[it]!=referenceString[it]);
+            } while(other[it]!=reference[it]);
         }
         else
         {
-            stringModifier = "<span style=\"color:#0CFF32;\">";
+            modifier = "<span style=\"color:#0CFF32;\">";
             do
             {
-                if(it==stringLength)
+                if(it==length)
                     break;
                 ++it;
                 ++countCorrect;
             }
-            while(otherString[it]==referenceString[it]);
+            while(other[it]==reference[it]);
         }
-        stringBeginning = stringEnd.left(it-stringRemovedLength);
-        stringMiddle = stringBeginning.right(stringBeginning.length()-(domainStart-stringRemovedLength));
-        stringBeginning= stringBeginning.left(domainStart-stringRemovedLength);
-        stringRemovedLength += stringBeginning.length() + stringMiddle.length();
-        stringEnd = referenceString.right(referenceString.length()-it);
-        stringResult.append(stringBeginning);
-        stringResult.append(stringModifier);
-        stringResult.append(stringMiddle);
-        stringResult.append("</span>");
+
+        QString portion = reference.mid(domainStart, it - domainStart);
+        result.append(modifier).append(portion).append("</span>");
     }
-    stringResult.append(stringEnd);
-    return std::make_pair(countCorrect, stringResult);
+
+    if (length < reference.length()){
+        result.append(reference.right(reference.length() - length));
+    }
+    return std::make_pair(countCorrect, result);
 }
