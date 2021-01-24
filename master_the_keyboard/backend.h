@@ -32,6 +32,7 @@ class BackEnd : public QObject
         QSqlDatabase db;
         Q_INVOKABLE bool signInUser(QString user, QString pass);
         Q_INVOKABLE bool registerUser(QString user, QString pass);
+        void insertSpeed(QString speed);
     signals:
         void inputTextChanged();
         void displayedTextChanged();
