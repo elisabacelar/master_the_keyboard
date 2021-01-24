@@ -7,7 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <cassert>
-
+#include <ctime>
 
 MarkovChain::MarkovChain()
     : m_keyLength(3)
