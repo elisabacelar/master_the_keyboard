@@ -1,5 +1,6 @@
 #include "backend.h"
 #include "textchecker.h"
+#include "ExerciseResult.h"
 
 BackEnd::BackEnd(QObject *parent) :
     QObject(parent)
@@ -18,6 +19,14 @@ void BackEnd::setInputText(const QString &inputText)
     if (inputText == _inputText)
         return;
 
+    // first call of this function after resetText
+    if (!_isExerciseOngoing)
+    {
+        _isExerciseOngoing = true;
+        _exerciseStartTime = std::chrono::high_resolution_clock::now();
+
+        qDebug()<< "Started exercise.";
+    }
     _inputText = inputText;
     emit inputTextChanged();
     this->handleInputChange();
@@ -56,9 +65,12 @@ void BackEnd::handleInputChange() {
     std::pair<int, QString> result = compareText(_sampleText,_inputText);
     this->setDisplayedText(result.second);
 
-    // reset text automatically if the user typed everything correctly
-    if (_sampleText.length() == _inputText.length() && _sampleText.length() == result.first)
+    // reset text automatically if the user typed everything
+    if (_sampleText.length() == _inputText.length())
+    {
+        this->generateResult(result.first, _sampleText.length());
         this->resetText();
+    }
 }
 
 void BackEnd::setupDb(QString dbName)
@@ -86,9 +98,23 @@ void BackEnd::setupDb(QString dbName)
     query.exec("CREATE TABLE dbUsers (id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(16), password VARCHAR(16), time DOUBLE)");
 }
 
+void BackEnd::generateResult(int nCorrect, int nTotal)
+{
+    using namespace std::chrono;
+
+    TimePoint exerciseEndTime = high_resolution_clock::now();
+    unsigned duration = duration_cast<seconds>(exerciseEndTime - _exerciseStartTime).count();
+    ExerciseResult R (nCorrect, nTotal, duration);
+
+    qDebug() << "Finished exercise, results:";
+    qDebug() << "\tTime [s]: " << duration << ", Character count: " << nCorrect << "";
+    qDebug() << "\tSpeed [WPM]: " << R.getSpeedWPM() << " WPM, Accuracy: " << R.getFormattedAccuracy() << " %\n";
+}
+
 void BackEnd::resetText()
 {
     setInputText(QString());
+    _isExerciseOngoing = false; // this will be set to true after next call of setInputText
     setSampleText(20);
 }
 

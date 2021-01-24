@@ -9,6 +9,8 @@
 #include <QDebug>
 #include "MarkovChain.h"
 
+typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
+
 class BackEnd : public QObject
 {
     Q_OBJECT
@@ -30,6 +32,7 @@ class BackEnd : public QObject
         void setSampleText(int words);
         void setupDb(QString dbname);
         Q_INVOKABLE void resetText();
+        void generateResult(int nCorrect, int nTotal);
         QSqlDatabase db;
     signals:
         void inputTextChanged();
@@ -39,6 +42,8 @@ class BackEnd : public QObject
         QString _inputText;
         QString _sampleText;
         QString _displayedText;
+        TimePoint _exerciseStartTime;
+        bool _isExerciseOngoing {false};
 };
 
 #endif // BACKEND_H
