@@ -175,3 +175,27 @@ bool BackEnd::registerUser(QString user, QString pass)
         return true;
     }
 }
+
+void BackEnd::insertSpeed(QString speed)
+{
+    QSqlQuery query(db);
+    if(!query.exec("select * from dbUsers where username='"+_currentUser+"'"))
+    {
+        qDebug()<<"Error accessing database";
+        return;
+    }
+
+    if(query.next())
+    {
+        query.prepare("insert into dbUsers (speed) values ('"+speed+"')");
+        if(!query.exec())
+        {
+            qDebug()<<"Speed saved..";
+        }
+        else
+        {
+            qDebug()<<"Error saving speed.";
+            return;
+        }
+    }
+}
