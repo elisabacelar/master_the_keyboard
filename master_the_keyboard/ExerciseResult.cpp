@@ -1,34 +1,39 @@
 #include "ExerciseResult.h"
 #include <cmath>
 
-static const int CPW = 5;
+namespace
+{
+const int CPW = 5;
+
+float formatFloat (float n, unsigned short decimalPlaces = 1)
+{
+    const float factor = pow(10, decimalPlaces);
+    return static_cast<float>(static_cast<int>(n * factor)) / factor;
+}
+}
 
 float ExerciseResult::getSpeedWPM()
 {
-    return this->getSpeedCPS() * 60.0 / CPW;
+    return formatFloat(this->getSpeedCPS() * 60.0 / CPW, 1);
 }
 
 float ExerciseResult::getSpeedCPM()
 {
-    return this->getSpeedCPS() * 60.0;
+    return formatFloat(this->getSpeedCPS() * 60.0, 1);
 }
 
 float ExerciseResult::getSpeedWPS()
 {
-    return this->getSpeedCPS() / CPW;
+    return formatFloat(this->getSpeedCPS() / CPW, 1);
 }
 
 float ExerciseResult::getSpeedCPS()
 {
-    return static_cast<float>(_nCorrect) / static_cast<float>(_duration);
+    return formatFloat(static_cast<float>(_nCorrect) / static_cast<float>(_duration), 1);
 }
 
 float ExerciseResult::getFormattedAccuracy(){
-    const int decimalPlaces = 1;
-    const float factor = pow(10, decimalPlaces);
-    return
-        static_cast<float>(static_cast<int>(this->getAccuracy() * 100 * factor))
-            / factor;
+    return formatFloat(100 * this->getAccuracy(), 1);
 }
 
 float ExerciseResult::getAccuracy()
