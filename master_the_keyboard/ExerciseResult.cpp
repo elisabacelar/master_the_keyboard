@@ -8,7 +8,7 @@ const int CPW = 5;
 float formatFloat (float n, unsigned short decimalPlaces = 1)
 {
     const float factor = pow(10, decimalPlaces);
-    return static_cast<float>(static_cast<int>(n * factor)) / factor;
+    return roundf(n * factor) / factor;
 }
 }
 
