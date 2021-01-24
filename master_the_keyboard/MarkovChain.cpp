@@ -1,23 +1,24 @@
 #include "MarkovChain.h"
-#include <iostream>
 #include <string>
 #include <fstream>
-#include <sstream>
 #include <map>
 #include <vector>
 #include <algorithm>
 #include <cassert>
 #include <ctime>
+#include <cstdlib>
 
 MarkovChain::MarkovChain()
     : m_keyLength(3)
 {
+    srand (time(NULL));
     readTextFile("../master_the_keyboard/brown.txt");
     createDictionary();
 }
 MarkovChain::MarkovChain(unsigned int keyLength, std::string fileName)
     : m_keyLength(keyLength)
 {
+    srand (time(NULL));
     readTextFile(fileName);
     createDictionary();
 }
@@ -67,7 +68,6 @@ void MarkovChain::createDictionary ()
 QString MarkovChain::generateText (unsigned int numberOfWords)
 {
     std::map<std::string, std::vector<std::string> >::iterator it = m_dictionary.begin();
-    srand (time(NULL));
     std::advance(it, rand() % m_dictionary.size());
     std::string output;
 
