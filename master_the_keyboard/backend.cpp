@@ -108,32 +108,6 @@ void BackEnd::setUserName(const QString &userName)
     emit userNameChanged();
 }
 
-
-void BackEnd::setupDb(QString dbName)
-{
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbName);
-
-    if(!db.open())
-    {
-        qDebug()<<"Failed to open database";
-        return;
-    }
-
-    qDebug()<<"Database open";
-    foreach (QString table, db.tables())
-    {
-        if(table == "dbUsers")
-        {
-            qDebug()<<"Table dbUsers found";
-            return;
-        }
-    }
-    qDebug()<<"Table dbUsers not found, creating...";
-    QSqlQuery query(db);
-    query.exec("CREATE TABLE dbUsers (id INTEGER PRIMARY KEY AUTOINCREMENT, username VARCHAR(16), password VARCHAR(16), time DOUBLE)");
-}
-
 void BackEnd::resetText()
 {
     _textVerification.resetMetrics();
@@ -168,4 +142,102 @@ void BackEnd::setSpeed(const QString &speed)
 
     _speed = speed;
     emit speedChanged();
+}
+
+void BackEnd::setupDb(QString dbName)
+{
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(dbName);
+
+    if(!db.open())
+    {
+        qDebug()<<"Failed to open database";
+        return;
+    }
+
+    qDebug()<<"Database open";
+    foreach (QString table, db.tables())
+    {
+        if(table == "dbUsers")
+        {
+            qDebug()<<"Table dbUsers found";
+            return;
+        }
+    }
+    qDebug()<<"Table dbUsers not found, creating...";
+    QSqlQuery query(db);
+    query.exec("CREATE TABLE dbUsers (id INTEGER PRIMARY KEY AUTOINCREMENT, "
+               "username VARCHAR(16), speed VARCHAR(16)");
+}
+
+bool BackEnd::signInUser(QString user)
+{
+    QSqlQuery query(db);
+    if(!query.exec("select * from dbUsers where username='"+user+"'"))
+    {
+        qDebug()<<"Error accessing database";
+        return false;
+    }
+
+    if(query.next())
+    {
+        _currentUser = user;
+        qDebug()<<"user logged";
+        return true;
+    }
+
+    qDebug()<<"User not found";
+    return false;
+}
+
+bool BackEnd::registerUser(QString user)
+{
+    QSqlQuery query(db);
+    if(!query.exec("select * from dbUsers where username='"+user+"'"))
+    {
+        qDebug()<<"Error accessing database";
+        return false;
+    }
+
+    if(query.next())
+    {
+        qDebug()<<"User already registered.";
+        return false;
+    }
+    else
+    {
+        query.prepare("insert into dbUsers (username) values ('"+user+"')");
+        if(!query.exec())
+        {
+            qDebug()<<"Error registering user";
+            return false;
+        }
+        _currentUser = user;
+        qDebug()<<"User successfully registered";
+        return true;
+    }
+}
+
+void BackEnd::insertSpeed(QString speed)
+{
+    QSqlQuery query(db);
+    if(!query.exec("select * from dbUsers where username='"+_currentUser+"'"))
+    {
+        qDebug()<<"Error accessing database";
+        return;
+    }
+
+    if(query.next())
+    {
+        query.prepare("insert into dbUsers (speed) values ('"+speed+"')");
+        if(!query.exec())
+        {
+            qDebug()<<"Speed saved..";
+        }
+        else
+        {
+            qDebug()<<"Error saving speed.";
+            return;
+        }
+    }
 }

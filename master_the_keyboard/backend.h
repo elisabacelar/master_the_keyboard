@@ -38,18 +38,22 @@ class BackEnd : public QObject
         QString getDisplayedText();
         void setDisplayedText(const QString &userName);
         void setSampleText(int words);
-        void setupDb(QString dbname);
         Q_INVOKABLE void resetText();
-        bool isLoginWindowVisible();
-        void setLoginWindowVisibility(bool visibility);
-        void handleNewSession();
-        void handleNewUser();
         QString getUserName();
         void setUserName(const QString &userName);
         QString getCorrectness();
         void setCorrectness(const QString &correctness);
         QString getSpeed();
         void setSpeed(const QString &speed);
+
+        bool isLoginWindowVisible();
+        void setLoginWindowVisibility(bool visibility);
+        void setupDb(QString dbname);
+        void handleNewSession();
+        void handleNewUser();
+        Q_INVOKABLE bool signInUser(QString user);
+        Q_INVOKABLE bool registerUser(QString user);
+        void insertSpeed(QString speed);
         QSqlDatabase db;
     signals:
         void inputTextChanged();
@@ -65,6 +69,7 @@ class BackEnd : public QObject
         QString _displayedText;
         bool _loginWindowVisibility;
         QString _userNameInput;
+        QString _currentUser;
         QString _correctness;
         QString _speed;
         Metrics _textVerification;

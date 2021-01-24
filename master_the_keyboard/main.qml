@@ -229,21 +229,38 @@ ApplicationWindow {
             id: loginButton;
 
             height: 25;
-            onClicked: loginWindow.close();
             text: qsTr("Login");
             width: 70;
             x: userNameInputBox.x+userNameInputBox.width/18;
             y: 7*parent.height/10;
+            onClicked: {
+                if(userNameInputText.text)
+                {
+                    if(backend.signInUser(userNameInputText.txt))
+                    {
+                        userNameInputText.clear();
+                    }
+                }
+                loginWindow.close();
+            }
+
         }
         Button {
             id: registerButton;
 
             height: 25;
-            onClicked: loginWindow.close();
             text: qsTr("Register");
             width: 70;
             x: userNameInputBox.x+10*userNameInputBox.width/18;
             y: 7*parent.height/10;
+            onClicked: {
+                if(userNameInputText.text)
+                {
+                    backend.registerUser(userNameInputText.txt)
+                    userNameInputText.clear();
+                }
+                loginWindow.close();
+            }
         }
     }
 }
