@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>main.qml</file>
+        <file>SecondPage.qml</file>
+        <file>ThirdPage.qml</file>
+        <file>Typing.qml</file>
+        <file>FourthPage.qml</file>
+        <file>oldMain.qml</file>
+    </qresource>
+    <qresource prefix="/img">
+        <file>images/background.jpg</file>
+        <file>images/background.png</file>
+    </qresource>
+    <qresource prefix="/files">
+        <file>brown.txt</file>
+    </qresource>
+</RCC>
