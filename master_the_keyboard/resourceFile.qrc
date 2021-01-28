@@ -1,11 +1,15 @@
 <RCC>
     <qresource prefix="/qml">
-        <file>main.qml</file>
-        <file>SecondPage.qml</file>
-        <file>ThirdPage.qml</file>
-        <file>Typing.qml</file>
-        <file>FourthPage.qml</file>
-        <file>oldMain.qml</file>
+        <file>screens/FourthPage.qml</file>
+        <file>screens/home.qml</file>
+        <file>screens/HomePage.qml</file>
+        <file>screens/main.qml</file>
+        <file>screens/oldMain.qml</file>
+        <file>screens/SecondPage.qml</file>
+        <file>screens/StartingPage.qml</file>
+        <file>screens/ThirdPage.qml</file>
+        <file>screens/Typing.qml</file>
+        <file>screens/signInPage.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>images/background.jpg</file>

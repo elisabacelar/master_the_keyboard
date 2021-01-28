@@ -6,15 +6,16 @@ import QtQuick.Window 2.2
 import local.api.backend 1.0
 
 Item {
-
     Image {
         id:backgroundImage;
+
         anchors.fill:parent;
         source: "qrc:/img/images/background.png";
     }
 
     Text {
         id: backgroundSource;
+
         font.family: "serif";
         font.pixelSize: 10;
         text: qsTr("Image by Michael Schwarzenberger from Pixabay <https://pixabay.com/>");
@@ -24,6 +25,7 @@ Item {
 
     Text {
         id: title;
+
         font.family: "serif";
         font.pixelSize: parent.height/7;
         text: "Master The Keyboard";
@@ -35,6 +37,7 @@ Item {
 
     GridView {
         id: mygridview
+
         width: parent.width
         height: parent.height
         cellWidth: parent.width / 4
@@ -60,7 +63,7 @@ Item {
             id: mybutton
             text: name
             onClicked: {
-                load_page(text);
+                loadPage(text);
             }
         }
     }

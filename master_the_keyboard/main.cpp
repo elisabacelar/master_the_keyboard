@@ -15,14 +15,14 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/qml/screens/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 
     BackEnd* backend = engine.rootObjects()[0]->findChildren<BackEnd *>()[0];
 
     backend->setSampleText(20);
-    backend->setupDb("../master_the_keyboard/dataMtk.db");
+    backend->databaseInit("database.db");
 
     return app.exec();
 }

@@ -6,6 +6,10 @@
 #include <QtQml>
 #include <qqml.h>
 #include <QtSql>
+#include <QSqlDatabase>
+#include <QSqlDriver>
+#include <QSqlError>
+#include <QSqlQuery>
 #include <QDebug>
 #include "MarkovChain.h"
 #include "textchecker.h"
@@ -48,13 +52,15 @@ class BackEnd : public QObject
 
         bool isLoginWindowVisible();
         void setLoginWindowVisibility(bool visibility);
-        void setupDb(QString dbname);
+        void databaseInit(QString dbName);
+        void createNewTable();
         void handleNewSession();
         void handleNewUser();
-        Q_INVOKABLE bool signInUser(QString user);
-        Q_INVOKABLE bool registerUser(QString user);
-        void insertSpeed(QString speed);
-        QSqlDatabase db;
+        Q_INVOKABLE bool signInUser();
+        Q_INVOKABLE bool registerUser();
+        Q_INVOKABLE void saveMetrics();
+        void saveSpeed();
+        void saveAccuracy();
     signals:
         void inputTextChanged();
         void displayedTextChanged();
@@ -69,7 +75,8 @@ class BackEnd : public QObject
         QString _displayedText;
         bool _loginWindowVisibility;
         QString _userNameInput;
-        QString _currentUser;
+        QSqlDatabase _db;
+        QString _userName;
         QString _correctness;
         QString _speed;
         Metrics _textVerification;
@@ -77,4 +84,4 @@ class BackEnd : public QObject
         bool _isExerciseOngoing {false};
 };
 
-#endif // BACKEND_H
+#endif

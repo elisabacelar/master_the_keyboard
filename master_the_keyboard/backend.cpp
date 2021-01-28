@@ -144,44 +144,44 @@ void BackEnd::setSpeed(const QString &speed)
     emit speedChanged();
 }
 
-void BackEnd::setupDb(QString dbName)
+void BackEnd::databaseInit(QString dbName)
 {
-    db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbName);
+    _db = QSqlDatabase::addDatabase("QSQLITE");
+    _db.setDatabaseName(dbName);
 
-    if(!db.open())
+    if(!_db.open())
     {
-        qDebug()<<"Failed to open database";
+        qWarning() << "Failed to open database - ERROR: " << _db.lastError().text();
         return;
     }
 
-    qDebug()<<"Database open";
-    foreach (QString table, db.tables())
+    foreach (QString table, _db.tables())
     {
-        if(table == "dbUsers")
+        if(table == "users")
         {
-            qDebug()<<"Table dbUsers found";
             return;
         }
     }
-    qDebug()<<"Table dbUsers not found, creating...";
-    QSqlQuery query(db);
-    query.exec("CREATE TABLE dbUsers (id INTEGER PRIMARY KEY AUTOINCREMENT, "
-               "username VARCHAR(16), speed VARCHAR(16)");
+
+    QSqlQuery query("CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT)");
+    if(!query.isActive())
+    {
+        qWarning() << "Creating user table - ERROR: " << query.lastError().text();
+    }
 }
 
-bool BackEnd::signInUser(QString user)
+bool BackEnd::signInUser()
 {
-    QSqlQuery query(db);
-    if(!query.exec("select * from dbUsers where username='"+user+"'"))
+    QSqlQuery query(_db);
+    if(!query.exec("select * from users where username='"+_userNameInput+"'"))
     {
-        qDebug()<<"Error accessing database";
+        qWarning() << "Accessing database - ERROR: " << query.lastError().text();
         return false;
     }
 
     if(query.next())
     {
-        _currentUser = user;
+        _userName = _userNameInput;
         qDebug()<<"user logged";
         return true;
     }
@@ -190,54 +190,80 @@ bool BackEnd::signInUser(QString user)
     return false;
 }
 
-bool BackEnd::registerUser(QString user)
+bool BackEnd::registerUser()
 {
-    QSqlQuery query(db);
-    if(!query.exec("select * from dbUsers where username='"+user+"'"))
+    QSqlQuery query(_db);
+    if(!query.exec("select * from users where username='"+_userNameInput+"'"))
     {
-        qDebug()<<"Error accessing database";
+        qWarning() << "Accessing database - ERROR: " << query.lastError().text();
         return false;
     }
 
     if(query.next())
     {
-        qDebug()<<"User already registered.";
+        qDebug()<<"User: '"+_userNameInput+"' already registered.";
         return false;
     }
     else
     {
-        query.prepare("insert into dbUsers (username) values ('"+user+"')");
+        query.prepare("INSERT INTO users (username) VALUES ('"+_userNameInput+"')");
         if(!query.exec())
         {
-            qDebug()<<"Error registering user";
+            qWarning() << "Registering user - ERROR: " << query.lastError().text();
             return false;
         }
-        _currentUser = user;
-        qDebug()<<"User successfully registered";
+        _userName = _userNameInput;
+        qDebug()<<"User: '"+_userNameInput+"' successfully registered";
         return true;
     }
 }
 
-void BackEnd::insertSpeed(QString speed)
+void BackEnd::createNewTable()
 {
-    QSqlQuery query(db);
-    if(!query.exec("select * from dbUsers where username='"+_currentUser+"'"))
+    QSqlQuery query("CREATE TABLE '"+_userNameInput+"' (id INTEGER PRIMARY KEY, speed TEXT, accuracy TEXT)");
+    if(!query.isActive())
     {
-        qDebug()<<"Error accessing database";
-        return;
+        qWarning() << "Creating user data table - ERROR: " << query.lastError().text();
+    }
+}
+
+void BackEnd::saveMetrics()
+{
+    bool isNewUser = true;
+    foreach (QString table, _db.tables())
+    {
+        if(table == _userNameInput)
+        {
+            isNewUser = false;
+        }
     }
 
-    if(query.next())
+    if(isNewUser)
     {
-        query.prepare("insert into dbUsers (speed) values ('"+speed+"')");
-        if(!query.exec())
-        {
-            qDebug()<<"Speed saved..";
-        }
-        else
-        {
-            qDebug()<<"Error saving speed.";
-            return;
-        }
+        createNewTable();
+    }
+
+    QSqlQuery query(_db);
+    if(!query.exec("INSERT INTO '"+_userNameInput+"' (speed, accuracy) VALUES ('"+_speed+"', '"+_correctness+"')"))
+    {
+        qWarning() << "Saving metrics - ERROR: " << query.lastError().text();
+    }
+}
+
+void BackEnd::saveSpeed()
+{
+    QSqlQuery query(_db);
+    if(!query.exec("INSERT INTO '"+_userNameInput+"' (speed) VALUES ('"+_speed+"')"))
+    {
+        qWarning() << "Saving speed - ERROR: " << query.lastError().text();
+    }
+}
+
+void BackEnd::saveAccuracy()
+{
+    QSqlQuery query(_db);
+    if(!query.exec("INSERT INTO '"+_userNameInput+"' (accuracy) VALUES ('"+_correctness+"')"))
+    {
+        qWarning() << "Saving accuracy - ERROR: " << query.lastError().text();
     }
 }

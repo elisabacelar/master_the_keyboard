@@ -7,8 +7,8 @@ import local.api.backend 1.0
 
 ApplicationWindow {
     id: root;
-    width: 1000;
-    height: 650;
+    width: 1280;
+    height: 720;
     title: qsTr("Master The Keyboard");
     visible: true;
 
@@ -17,21 +17,21 @@ ApplicationWindow {
     }
 
     header: ToolBar {
-        RowLayout {
-            anchors.fill: parent
-            ToolButton {
-                text: qsTr("<")
-                onClicked: mystackview.pop()
-            }
-            Label {
-                text: "Home Screen"
-                elide: Label.ElideRight
-                horizontalAlignment: Qt.AlignLeft
-                verticalAlignment: Qt.AlignVCenter
-                Layout.fillWidth: true
+            RowLayout {
+                anchors.fill: parent
+                ToolButton {
+                    text: qsTr("<")
+                    onClicked: mystackview.push(homePage);
+                }
+                Label {
+                    text: "Home Screen"
+                    elide: Label.ElideRight
+                    horizontalAlignment: Qt.AlignLeft
+                    verticalAlignment: Qt.AlignVCenter
+                    Layout.fillWidth: true
+                }
             }
         }
-    }
 
     StackView {
         anchors {
@@ -42,11 +42,11 @@ ApplicationWindow {
         }
 
         id: mystackview
-        initialItem: typingPage
+        initialItem: homePage
     }
 
     Component {
-        id: second_page
+        id: signInPage
         SecondPage {}
     }
     Component {
@@ -61,18 +61,25 @@ ApplicationWindow {
         id: fourth_page
         FourthPage {}
     }
+    Component {
+        id: homePage
+        HomePage {}
+    }
 
 
-    function load_page(page) {
+    function loadPage(page) {
         switch (page) {
         case 'Page 1':
-            mystackview.push(typingPage);
+            mystackview.push(homePage);
             break;
         case 'Page 2':
-            mystackview.push(second_page);
+            mystackview.push(typingPage);
             break;
         case 'Page 3':
             mystackview.push(third_page);
+            break;
+        case 'Page 4':
+            mystackview.push(signInPage);
             break;
         }
     }

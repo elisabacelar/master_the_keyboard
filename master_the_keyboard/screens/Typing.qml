@@ -25,6 +25,17 @@ Item {
         y: parent.height/35;
     }
 
+    Text {
+        id: textUsername;
+
+        font.family: "serif";
+        font.pixelSize: parent.height/25;
+        text: backend.userNameInput
+        anchors.right: parent.right
+        anchors.rightMargin: 40
+        y: parent.height/35;
+    }
+
     Item {
         id: textDisplay;
 
@@ -67,6 +78,7 @@ Item {
         text: qsTr("Next")
 
         onClicked: {
+            backend.saveMetrics()
             backend.resetText()
         }
     }
