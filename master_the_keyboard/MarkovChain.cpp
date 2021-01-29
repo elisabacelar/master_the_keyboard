@@ -12,7 +12,6 @@ MarkovChain::MarkovChain()
     : m_keyLength(3)
 {
     srand (time(NULL));
-    //readTextFile("../master_the_keyboard/brown.txt");
     readTextFile("../master_the_keyboard/brownCompact.txt");
     createDictionary();
 }
