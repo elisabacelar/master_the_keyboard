@@ -8,6 +8,10 @@ import local.api.backend 1.0
 Item {
     id: element
     visible: true;
+    Keys.onReturnPressed: {
+        backend.saveMetrics();
+        backend.resetText();
+    }
 
     Image {
         id:backgroundImage;
