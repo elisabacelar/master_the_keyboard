@@ -6,7 +6,9 @@ import QtQuick.Window 2.2
 import local.api.backend 1.0
 
 Item {
-    id: element
+    id: typingScreen
+    Layout.minimumWidth: 128
+    Layout.minimumHeight: 72
     visible: true;
     Keys.onReturnPressed: {
         backend.saveMetrics();
@@ -84,6 +86,7 @@ Item {
         onClicked: {
             backend.saveMetrics()
             backend.resetText()
+            userInput.focus = true
         }
     }
 

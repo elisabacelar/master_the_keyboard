@@ -17,70 +17,64 @@ ApplicationWindow {
     }
 
     header: ToolBar {
-            RowLayout {
-                anchors.fill: parent
-                ToolButton {
-                    text: qsTr("<")
-                    onClicked: mystackview.push(homePage);
-                }
-                Label {
-                    text: "Home Screen"
-                    elide: Label.ElideRight
-                    horizontalAlignment: Qt.AlignLeft
-                    verticalAlignment: Qt.AlignVCenter
-                    Layout.fillWidth: true
+        id: control
+        implicitHeight: 40
+        RowLayout {
+            ToolButton {
+                id: homeButtom
+
+                anchors.leftMargin: 0
+                anchors.topMargin: 0
+                width: 40
+                height: 40
+                text: qsTr("HOME")
+                onClicked: stack.push(homePage);
+            }
+
+            ToolButton {
+                id: menuButtom
+
+                anchors.topMargin: 0
+                width: 40
+                height: 40
+                text: qsTr("MENU")
+                onClicked: stack.push(third_page);
+            }
+
+            ToolButton {
+                id: logoutButton
+
+                anchors.right: root.right
+                anchors.rightMargin: 10
+                anchors.topMargin: 0
+                height: 40
+                text: qsTr("LOG OUT")
+                visible: (backend.userNameInput.length > 0)
+                onClicked:
+                {
+                    backend.setUserName("")
+                    stack.push(homePage);
                 }
             }
         }
+    }
 
     StackView {
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-            top: parent.top
-        }
-
-        id: mystackview
+        id:stack
+        anchors.fill: parent
         initialItem: homePage
     }
 
     Component {
-        id: signInPage
-        SecondPage {}
-    }
-    Component {
-        id: third_page
-        ThirdPage {}
+        id: homePage
+        HomePage {}
     }
     Component {
         id: typingPage
         Typing {}
     }
     Component {
-        id: fourth_page
-        FourthPage {}
-    }
-    Component {
-        id: homePage
-        HomePage {}
-    }
-
-
-    function loadPage(page) {
-        switch (page) {
-        case 'Page 1':
-            mystackview.push(homePage);
-            break;
-        case 'Page 2':
-            mystackview.push(typingPage);
-            break;
-        case 'Page 3':
-            mystackview.push(third_page);
-            break;
-        case 'Page 4':
-            mystackview.push(signInPage);
-            break;
-        }
+        id: third_page
+        ThirdPage {}
     }
 }

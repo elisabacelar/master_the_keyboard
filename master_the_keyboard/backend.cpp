@@ -170,51 +170,51 @@ void BackEnd::databaseInit(QString dbName)
     }
 }
 
-bool BackEnd::signInUser()
+QString BackEnd::signInUser(const QString &userName)
 {
     QSqlQuery query(_db);
-    if(!query.exec("select * from users where username='"+_userNameInput+"'"))
+    if(!query.exec("select * from users where username='"+userName+"'"))
     {
         qWarning() << "Accessing database - ERROR: " << query.lastError().text();
-        return false;
+        return "Failed to sign in";
     }
 
     if(query.next())
     {
-        _userName = _userNameInput;
+        setUserName(userName);
         qDebug()<<"user logged";
-        return true;
+        return "User logged";
     }
 
     qDebug()<<"User not found";
-    return false;
+    return "User not found, please check your name or create a new one";
 }
 
-bool BackEnd::registerUser()
+QString BackEnd::registerUser(const QString &userName)
 {
     QSqlQuery query(_db);
-    if(!query.exec("select * from users where username='"+_userNameInput+"'"))
+    if(!query.exec("select * from users where username='"+userName+"'"))
     {
         qWarning() << "Accessing database - ERROR: " << query.lastError().text();
-        return false;
+        return "Failed to create account";
     }
 
     if(query.next())
     {
-        qDebug()<<"User: '"+_userNameInput+"' already registered.";
-        return false;
+        qDebug()<<"User: '"+userName+"' already registered.";
+        return "User already registered, please SIGN IN";
     }
     else
     {
-        query.prepare("INSERT INTO users (username) VALUES ('"+_userNameInput+"')");
+        query.prepare("INSERT INTO users (username) VALUES ('"+userName+"')");
         if(!query.exec())
         {
             qWarning() << "Registering user - ERROR: " << query.lastError().text();
-            return false;
+            return "Failed to create account";
         }
-        _userName = _userNameInput;
-        qDebug()<<"User: '"+_userNameInput+"' successfully registered";
-        return true;
+        setUserName(userName);
+        qDebug()<<"User: '"+userName+"' successfully registered";
+        return "User successfully registered";
     }
 }
 

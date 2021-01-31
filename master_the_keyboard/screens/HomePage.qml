@@ -6,6 +6,9 @@ import QtQuick.Window 2.2
 import local.api.backend 1.0
 
 Item {
+    id: homeScreen
+    Layout.minimumWidth: 128
+    Layout.minimumHeight: 72
     Image {
         id:backgroundImage;
 
@@ -30,40 +33,150 @@ Item {
         font.pixelSize: parent.height/7;
         text: "Master The Keyboard";
         font.bold: true
+        anchors.top: parent.top
+        anchors.topMargin: parent.height/10
         x: parent.width/2 - title.width/2;
-        y: parent.height/2 - title.height/2;
         color: "#0c1faa"
     }
 
-    GridView {
-        id: mygridview
+    Button {
+        id: starButton
 
-        width: parent.width
-        height: parent.height
-        cellWidth: parent.width / 4
-        cellHeight: 5
-        anchors.centerIn: parent
-        visible: true;
-
-        model: ListModel {
-            ListElement {
-                name: 'Page 1'
+        text: qsTr("Get Started")
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        onClicked: {
+            if(backend.userNameInput.length > 0)
+            {
+                stack.push(typingPage);
+                login.visible = false
             }
-            ListElement {
-                name: 'Page 2'
-            }
-            ListElement {
-                name: 'Page 3'
-            }
-            ListElement {
-                name: 'Page 4'
+            else
+            {
+                login.visible = true
+                //stack.push(signInPage);
             }
         }
-        delegate: Button {
-            id: mybutton
-            text: name
-            onClicked: {
-                loadPage(text);
+    }
+
+
+    Item {
+        id: login
+
+        visible: false
+        x: 160
+        y: 142
+        width: 320
+        height: 320
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        Rectangle {
+            id: loginBox
+            width: 320
+            height: 320
+            color: "#f3f4f4"
+            radius: 30
+
+            Text {
+                id: loginTitle
+                x: 138
+                y: 30
+                text: qsTr("Login")
+                font.family: "Tahoma"
+                lineHeight: 1
+                fontSizeMode: Text.Fit
+                textFormat: Text.AutoText
+                elide: Text.ElideNone
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 21
+            }
+
+            TextField {
+                id: textUsername
+                y: 86
+                width: 242
+                height: 42
+                anchors.horizontalCenterOffset: -4
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pointSize: 10
+                transformOrigin: Item.Center
+                horizontalAlignment: Text.AlignLeft
+                TextEdit {
+                    selectByMouse: true
+                    Text {
+                        x: 11
+                        y: 5
+                        width: 92
+                        height: 32
+                        color: "#aaaaaa"
+                        text: "Username"
+                        font.bold: false
+                        font.pointSize: 10
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignLeft
+                        visible: !textUsername.text
+                    }
+                    wrapMode: Text.Wrap
+                }
+            }
+
+            Button {
+                id: signInButton
+                x: 35
+                y: 205
+                width: 110
+                height: 32
+                text: qsTr("Sign in")
+                anchors.horizontalCenterOffset: -72
+                anchors.horizontalCenter: parent.horizontalCenter
+                font.pointSize: 11
+                font.bold: false
+                enabled: textUsername.text
+                onClicked: {
+                    userInfo.text = backend.signInUser(textUsername.text)
+                }
+            }
+
+            Button {
+                id: registerButton
+                x: 175
+                y: 205
+                width: 110
+                height: 32
+                text: qsTr("Create")
+                font.pointSize: 11
+                font.bold: false
+                enabled: textUsername.text
+                onClicked: {
+                    userInfo.text = backend.registerUser(textUsername.text)
+                }
+            }
+
+            Label {
+                id: userInfo
+                y: 136
+
+                width: 242
+                height: 40
+                color: "#ff0000"
+                wrapMode: Text.WordWrap
+                anchors.horizontalCenterOffset: -4
+                anchors.horizontalCenter: parent.horizontalCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Button {
+                id: typingPageButton
+                x: 106
+                y: 257
+
+                text: qsTr("Continue")
+                enabled: (backend.userNameInput.length > 0)
+                onClicked: {
+                    stack.push(typingPage);
+                }
             }
         }
     }

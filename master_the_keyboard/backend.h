@@ -43,8 +43,8 @@ class BackEnd : public QObject
         void setDisplayedText(const QString &userName);
         void setSampleText(int words);
         Q_INVOKABLE void resetText();
-        QString getUserName();
-        void setUserName(const QString &userName);
+        Q_INVOKABLE QString getUserName();
+        Q_INVOKABLE void setUserName(const QString &userName);
         QString getCorrectness();
         void setCorrectness(const QString &correctness);
         QString getSpeed();
@@ -56,8 +56,8 @@ class BackEnd : public QObject
         void createNewTable();
         void handleNewSession();
         void handleNewUser();
-        Q_INVOKABLE bool signInUser();
-        Q_INVOKABLE bool registerUser();
+        Q_INVOKABLE QString signInUser(const QString &userName);
+        Q_INVOKABLE QString registerUser(const QString &userName);
         Q_INVOKABLE void saveMetrics();
         void saveSpeed();
         void saveAccuracy();
@@ -74,7 +74,7 @@ class BackEnd : public QObject
         QString _sampleText;
         QString _displayedText;
         bool _loginWindowVisibility;
-        QString _userNameInput;
+        QString _userNameInput {};
         QSqlDatabase _db;
         QString _userName;
         QString _correctness;

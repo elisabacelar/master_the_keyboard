@@ -1,21 +1,22 @@
 <RCC>
     <qresource prefix="/qml">
-        <file>screens/FourthPage.qml</file>
-        <file>screens/home.qml</file>
         <file>screens/HomePage.qml</file>
         <file>screens/main.qml</file>
         <file>screens/oldMain.qml</file>
-        <file>screens/SecondPage.qml</file>
-        <file>screens/StartingPage.qml</file>
         <file>screens/ThirdPage.qml</file>
         <file>screens/Typing.qml</file>
-        <file>screens/signInPage.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>images/background.jpg</file>
         <file>images/background.png</file>
+        <file>images/config-icon.png</file>
+        <file>images/home-icon.png</file>
+        <file>images/profile-icon.png</file>
+        <file>images/menu-icon.png</file>
     </qresource>
     <qresource prefix="/files">
         <file>brown.txt</file>
+        <file>brownCompact.txt</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>
