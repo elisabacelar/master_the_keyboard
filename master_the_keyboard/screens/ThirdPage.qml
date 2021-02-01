@@ -21,4 +21,18 @@ Item {
         x: parent.width/2 - title.width/2;
         y: parent.height/35;
     }
+
+    Button {
+        id: tryAgainButton
+
+        text: qsTr("Try again")
+        anchors.top: parent.top
+        anchors.topMargin: 10
+        anchors.right: parent.right
+        anchors.rightMargin: 10
+        onClicked: {
+            backend.resetText()
+            stack.push(typingPage);
+        }
+    }
 }
