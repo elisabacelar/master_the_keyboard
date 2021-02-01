@@ -105,6 +105,7 @@ Item {
         text: qsTr("Finish")
 
         onClicked: {
+            backend.saveMetrics()
             stack.push(third_page);
         }
     }

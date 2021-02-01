@@ -220,7 +220,7 @@ QString BackEnd::registerUser(const QString &userName)
 
 void BackEnd::createNewTable()
 {
-    QSqlQuery query("CREATE TABLE '"+_userNameInput+"' (id INTEGER PRIMARY KEY, speed TEXT, accuracy TEXT)");
+    QSqlQuery query("CREATE TABLE '"+_userNameInput+"' (id INTEGER PRIMARY KEY, speed TEXT, accuracy TEXT, TEXT DEFAULT CURRENT_TIMESTAMP)");
     if(!query.isActive())
     {
         qWarning() << "Creating user data table - ERROR: " << query.lastError().text();
