@@ -12,7 +12,7 @@
 #include <QSqlQuery>
 #include <QDebug>
 #include "MarkovChain.h"
-#include "textchecker.h"
+#include "Metrics.h"
 
 typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
 

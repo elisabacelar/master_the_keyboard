@@ -1,5 +1,5 @@
-#include "backend.h"
-#include "textchecker.h"
+#include "BackEnd.h"
+#include "Metrics.h"
 
 BackEnd::BackEnd(QObject *parent) :
     QObject(parent)

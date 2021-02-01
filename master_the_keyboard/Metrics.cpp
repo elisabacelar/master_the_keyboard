@@ -1,4 +1,4 @@
-#include "textchecker.h"
+#include "Metrics.h"
 
 namespace
 {

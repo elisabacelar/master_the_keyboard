@@ -1,5 +1,5 @@
-#ifndef TEXTCHECKER_H
-#define TEXTCHECKER_H
+#ifndef METRICS_H
+#define METRICS_H
 
 #include <QObject>
 #include <QString>
@@ -24,4 +24,4 @@ class Metrics {
         TimePoint _startTime;
 };
 
-#endif // TEXTCHECKER_H
+#endif // METRICS_H
