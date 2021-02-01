@@ -15,7 +15,6 @@
         <file>images/menu-icon.png</file>
     </qresource>
     <qresource prefix="/files">
-        <file>brown.txt</file>
         <file>brownCompact.txt</file>
     </qresource>
     <qresource prefix="/"/>

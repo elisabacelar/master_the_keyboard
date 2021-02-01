@@ -13,10 +13,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    BackEnd.cpp \
     MarkovChain.cpp \
-        main.cpp \
-    backend.cpp \
-    textchecker.cpp
+    Metrics.cpp \
+        main.cpp
 
 RESOURCES += resourceFile.qrc
 
@@ -32,8 +32,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    BackEnd.h \
     MarkovChain.h \
-    backend.h \
-    textchecker.h
+    Metrics.h
 
 DISTFILES +=

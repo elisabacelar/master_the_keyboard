@@ -17,6 +17,10 @@ Item {
 
     Image {
         id:backgroundImage;
+        anchors.rightMargin: 0
+        anchors.bottomMargin: 0
+        anchors.leftMargin: 0
+        anchors.topMargin: 0
         anchors.fill:parent;
         source: "qrc:/img/images/background.png";
     }
@@ -76,6 +80,22 @@ Item {
             backend.saveMetrics()
             backend.resetText()
             userInput.focus = true
+        }
+    }
+
+    Button {
+        id: finish_button
+
+        y: textDisplay.y
+        anchors.left: textDisplay.right
+        anchors.leftMargin: 160
+        width: 2*textDisplay.height
+        height: textDisplay.height
+        text: qsTr("Finish")
+
+        onClicked: {
+            backend.saveMetrics()
+            stack.push(third_page);
         }
     }
 
@@ -233,3 +253,9 @@ Item {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
