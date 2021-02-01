@@ -18,42 +18,81 @@ ApplicationWindow {
 
     header: ToolBar {
         id: control
-        implicitHeight: 40
+        height: 40
+        width: parent.width
         RowLayout {
+            width: parent.width
             ToolButton {
                 id: homeButtom
 
-                anchors.leftMargin: 0
-                anchors.topMargin: 0
                 width: 40
-                height: 40
+                height: parent.height
                 text: qsTr("HOME")
                 onClicked: stack.push(homePage);
             }
 
             ToolButton {
-                id: menuButtom
+                id: resultsButtom
 
-                anchors.topMargin: 0
                 width: 40
-                height: 40
-                text: qsTr("MENU")
+                height: parent.height
+                anchors.left: homeButtom.right
+                anchors.leftMargin: 10
+                text: qsTr("RESULTS")
                 onClicked: stack.push(third_page);
             }
 
             ToolButton {
                 id: logoutButton
 
-                anchors.right: root.right
-                anchors.rightMargin: 10
-                anchors.topMargin: 0
-                height: 40
-                text: qsTr("LOG OUT")
+                height: parent.height
+                anchors.left: resultsButtom.right
+                anchors.leftMargin: 10
+                text: qsTr("LOGOUT")
                 visible: (backend.userNameInput.length > 0)
                 onClicked:
                 {
+                    backend.resetText()
                     backend.setUserName("")
                     stack.push(homePage);
+                }
+            }
+
+            Item {
+                id: profile
+
+                visible: (backend.userNameInput.length > 0)
+                implicitWidth: profileName.width + profileImage.width
+                height: 40
+                anchors.right: parent.right
+                anchors.rightMargin: 10
+
+
+                Text {
+                    id: profileName
+
+                    height: 40
+                    anchors.right: profile.right
+                    anchors.rightMargin: 0
+                    font.family: "serif";
+                    text: backend.userNameInput
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 18
+                    fontSizeMode: Text.VerticalFit
+                }
+
+                Rectangle {
+                    id: profileImage
+
+                    width: 40
+                    height: 40
+                    anchors.right: profileName.left
+                    anchors.rightMargin: 5
+                    color: "transparent"
+                    Image {
+                        anchors.fill: parent
+                        source: "qrc:/img/images/profile-icon.png"
+                    }
                 }
             }
         }

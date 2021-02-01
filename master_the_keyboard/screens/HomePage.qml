@@ -67,14 +67,15 @@ Item {
         x: 160
         y: 142
         width: 320
-        height: 320
+        height: 285
         anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: 40
         anchors.horizontalCenter: parent.horizontalCenter
 
         Rectangle {
             id: loginBox
             width: 320
-            height: 320
+            height: 285
             color: "#f3f4f4"
             radius: 30
 
@@ -125,7 +126,7 @@ Item {
             Button {
                 id: signInButton
                 x: 35
-                y: 205
+                y: 170
                 width: 110
                 height: 32
                 text: qsTr("Sign in")
@@ -141,8 +142,8 @@ Item {
 
             Button {
                 id: registerButton
-                x: 175
-                y: 205
+                x: 167
+                y: 170
                 width: 110
                 height: 32
                 text: qsTr("Create")
@@ -156,10 +157,10 @@ Item {
 
             Label {
                 id: userInfo
-                y: 136
+                y: 132
 
                 width: 242
-                height: 40
+                height: 30
                 color: "#ff0000"
                 wrapMode: Text.WordWrap
                 anchors.horizontalCenterOffset: -4
@@ -169,8 +170,10 @@ Item {
 
             Button {
                 id: typingPageButton
-                x: 106
-                y: 257
+                x: 35
+                y: 222
+                width: 242
+                height: 40
 
                 text: qsTr("Continue")
                 enabled: (backend.userNameInput.length > 0)

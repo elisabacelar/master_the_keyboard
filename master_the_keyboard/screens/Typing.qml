@@ -31,17 +31,6 @@ Item {
         y: parent.height/35;
     }
 
-    Text {
-        id: textUsername;
-
-        font.family: "serif";
-        font.pixelSize: parent.height/25;
-        text: backend.userNameInput
-        anchors.right: parent.right
-        anchors.rightMargin: 40
-        y: parent.height/35;
-    }
-
     Item {
         id: textDisplay;
 
@@ -123,13 +112,13 @@ Item {
         anchors.top: userInputBox.bottom
         anchors.topMargin: 70
         Item {
-            id: correctnessDisplay
+            id: accuracyDisplay
 
             width: 120;
             height: 30
 
             Rectangle {
-                id: correctnessDisplayBorder;
+                id: accuracyDisplayBorder;
 
                 border.color: "#000000";
                 width: parent.width;
@@ -140,19 +129,33 @@ Item {
             }
 
             Text {
-                id: correctnessValue;
+                id: accuracyValue;
                 x: 0
                 y: 0
 
                 font.family: "serif";
                 font.pixelSize: 20;
                 textFormat: Text.RichText;
-                text: backend.correctness;
+                text: backend.accuracy+" %";
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 width: parent.width;
                 height: 30
                 wrapMode: Text.Wrap;
+                onTextChanged: {
+                    if(backend.accuracy < 50)
+                        color = "#FF0000"
+                    else if(backend.accuracy < 70)
+                        color = "#FF6600"
+                    else if(backend.accuracy < 80)
+                        color = "#FFFF00"
+                    else if(backend.accuracy < 90)
+                        color = "#00FF00"
+                    else if(backend.accuracy < 95)
+                        color = "#0000FF"
+                    else
+                        color = "#CC00CC"
+                }
             }
         }
 
@@ -203,12 +206,12 @@ Item {
                 font.family: "serif";
                 font.pixelSize: 20;
                 textFormat: Text.RichText;
-                text: backend.speed;
+                text: backend.speed+" WPM";
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 width: parent.width;
                 height: 30
-                wrapMode: Text.Wrap;
+                wrapMode: Text.Wrap; 
             }
         }
 

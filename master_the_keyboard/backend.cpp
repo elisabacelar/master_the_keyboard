@@ -34,7 +34,7 @@ void BackEnd::setInputText(const QString &inputText)
 void BackEnd::handleInputChange()
 {
     this->setDisplayedText(_textVerification.compareText(_sampleText,_inputText));
-    this->setCorrectness(_textVerification.getCorrectness());
+    this->setAccuracy(_textVerification.getAccuracy());
     this->setSpeed(_textVerification.getSpeed());
 }
 
@@ -116,26 +116,26 @@ void BackEnd::resetText()
     setSampleText(20);
 }
 
-QString BackEnd::getCorrectness()
+int BackEnd::getAccuracy()
 {
-    return _correctness;
+    return _accuracy;
 }
 
-void BackEnd::setCorrectness(const QString &correctness)
+void BackEnd::setAccuracy(const int accuracy)
 {
-    if (correctness == _correctness)
+    if (accuracy == _accuracy)
         return;
 
-    _correctness = correctness;
-    emit correctnessChanged();
+    _accuracy = accuracy;
+    emit accuracyChanged();
 }
 
-QString BackEnd::getSpeed()
+int BackEnd::getSpeed()
 {
     return _speed;
 }
 
-void BackEnd::setSpeed(const QString &speed)
+void BackEnd::setSpeed(const int speed)
 {
     if (speed == _speed)
         return;
@@ -213,6 +213,7 @@ QString BackEnd::registerUser(const QString &userName)
             return "Failed to create account";
         }
         setUserName(userName);
+        createNewTable();
         qDebug()<<"User: '"+userName+"' successfully registered";
         return "User successfully registered";
     }
@@ -220,7 +221,7 @@ QString BackEnd::registerUser(const QString &userName)
 
 void BackEnd::createNewTable()
 {
-    QSqlQuery query("CREATE TABLE '"+_userNameInput+"' (id INTEGER PRIMARY KEY, speed TEXT, accuracy TEXT)");
+    QSqlQuery query("CREATE TABLE '"+_userNameInput+"' (id INTEGER PRIMARY KEY, speed INTEGER, accuracy INTEGER)");
     if(!query.isActive())
     {
         qWarning() << "Creating user data table - ERROR: " << query.lastError().text();
@@ -229,41 +230,9 @@ void BackEnd::createNewTable()
 
 void BackEnd::saveMetrics()
 {
-    bool isNewUser = true;
-    foreach (QString table, _db.tables())
-    {
-        if(table == _userNameInput)
-        {
-            isNewUser = false;
-        }
-    }
-
-    if(isNewUser)
-    {
-        createNewTable();
-    }
-
     QSqlQuery query(_db);
-    if(!query.exec("INSERT INTO '"+_userNameInput+"' (speed, accuracy) VALUES ('"+_speed+"', '"+_correctness+"')"))
+    if(!query.exec("INSERT INTO '"+_userNameInput+"' (speed, accuracy) VALUES ('"+QString("%1").arg(_speed)+"', '"+QString("%1").arg(_accuracy)+"')"))
     {
         qWarning() << "Saving metrics - ERROR: " << query.lastError().text();
-    }
-}
-
-void BackEnd::saveSpeed()
-{
-    QSqlQuery query(_db);
-    if(!query.exec("INSERT INTO '"+_userNameInput+"' (speed) VALUES ('"+_speed+"')"))
-    {
-        qWarning() << "Saving speed - ERROR: " << query.lastError().text();
-    }
-}
-
-void BackEnd::saveAccuracy()
-{
-    QSqlQuery query(_db);
-    if(!query.exec("INSERT INTO '"+_userNameInput+"' (accuracy) VALUES ('"+_correctness+"')"))
-    {
-        qWarning() << "Saving accuracy - ERROR: " << query.lastError().text();
     }
 }

@@ -27,9 +27,9 @@ class BackEnd : public QObject
                setLoginWindowVisibility NOTIFY loginWindowVisibilityChanged)
     Q_PROPERTY(QString userNameInput READ getUserName WRITE setUserName NOTIFY \
                userNameChanged)
-    Q_PROPERTY(QString correctness READ getCorrectness WRITE setCorrectness NOTIFY \
-               correctnessChanged)
-    Q_PROPERTY(QString speed READ getSpeed WRITE setSpeed NOTIFY \
+    Q_PROPERTY(int accuracy READ getAccuracy WRITE setAccuracy NOTIFY \
+               accuracyChanged)
+    Q_PROPERTY(int speed READ getSpeed WRITE setSpeed NOTIFY \
                speedChanged)
 
     public:
@@ -45,10 +45,10 @@ class BackEnd : public QObject
         Q_INVOKABLE void resetText();
         Q_INVOKABLE QString getUserName();
         Q_INVOKABLE void setUserName(const QString &userName);
-        QString getCorrectness();
-        void setCorrectness(const QString &correctness);
-        QString getSpeed();
-        void setSpeed(const QString &speed);
+        int getAccuracy();
+        void setAccuracy(const int accuracy);
+        int getSpeed();
+        void setSpeed(const int speed);
 
         bool isLoginWindowVisible();
         void setLoginWindowVisibility(bool visibility);
@@ -66,7 +66,7 @@ class BackEnd : public QObject
         void displayedTextChanged();
         void loginWindowVisibilityChanged();
         void userNameChanged();
-        void correctnessChanged();
+        void accuracyChanged();
         void speedChanged();
     private:
         MarkovChain _mChain;
@@ -77,8 +77,8 @@ class BackEnd : public QObject
         QString _userNameInput {};
         QSqlDatabase _db;
         QString _userName;
-        QString _correctness;
-        QString _speed;
+        int _accuracy {0};
+        int _speed {0};
         Metrics _textVerification;
         TimePoint _exerciseStartTime;
         bool _isExerciseOngoing {false};

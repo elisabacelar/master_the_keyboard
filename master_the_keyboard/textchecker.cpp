@@ -51,42 +51,22 @@ QString Metrics::compareText(const QString& reference, const QString& other)
     {
         result.append(reference.right(reference.length() - length).toHtmlEscaped());
     }
-    this->updateCorrectness(errors, hits);
+    this->updateAccuracy(errors, hits);
     return result;
 }
 
-QString Metrics::getCorrectness()
+int Metrics::getAccuracy()
 {
-    QString correctness = "";
-    QString correctnessText = "";
-    float errorPercentage =
+    int errorPercentage =
         _numberOfErrors
                 ? formatFloat(static_cast<float>(100*_numberOfErrors)/(_currentNumberOfHits+_numberOfErrors),0)
                 : 0;
 
-    if(errorPercentage<5)
-        correctnessText.append("<span style=\"color:#CC00CC;\">");
-    else if(errorPercentage<10)
-        correctnessText.append("<span style=\"color:#0000FF;\">");
-    else if(errorPercentage<20)
-        correctnessText.append("<span style=\"color:#00FF00;\">");
-    else if(errorPercentage<30)
-        correctnessText.append("<span style=\"color:#FFFF00;\">");
-    else if(errorPercentage<50)
-        correctnessText.append("<span style=\"color:#FF6600;\">");
-    else
-        correctnessText.append("<span style=\"color:#FF0000;\">");
-
-    correctness = QString("%1").arg(100-errorPercentage);
-
-    correctnessText.append(correctness);
-    correctnessText.append("%");
-    correctnessText.append("</span>");
-
-    return correctnessText;
+    int accuracy = 100-errorPercentage;
+    return accuracy;
 }
 
-QString Metrics::getSpeed(){
+int Metrics::getSpeed(){
     using namespace std::chrono;
 
     TimePoint exerciseEndTime = high_resolution_clock::now();
@@ -94,14 +74,13 @@ QString Metrics::getSpeed(){
     float speed =
         duration
             ? formatFloat(
-                (static_cast<float>(_currentNumberOfHits) / CPW * 60.0) / static_cast<float>(duration), 1)
+                (static_cast<float>(_currentNumberOfHits) / CPW * 60.0) / static_cast<float>(duration), 0)
             :  0;
 
-    QString speedText = QString("%1").arg(speed).append(" WPM");
-    return speedText;
+    return speed;
 }
 
-void Metrics::updateCorrectness(int errors, int hits)
+void Metrics::updateAccuracy(int errors, int hits)
 {
     if(errors>_currentNumberOfErrors)
         _numberOfErrors++;

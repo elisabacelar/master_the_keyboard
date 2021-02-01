@@ -75,14 +75,14 @@ ApplicationWindow {
             y: parent.height/20;
         }
         Item {
-            id: correctnessDisplay;
+            id: accuracyDisplay;
 
-            height: correctnessValue.height;
+            height: accuracyValue.height;
             width: 1*textDisplay.width/5;
             x: textDisplay.x+textDisplay.width/5
             y: 1*(parent.height-height)/4;
             Rectangle {
-                id: correctnessDisplayBorder;
+                id: accuracyDisplayBorder;
 
                 border.color: "#000000";
                 color: "transparent";
@@ -91,12 +91,12 @@ ApplicationWindow {
 
             }
             Text {
-                id: correctnessValue;
+                id: accuracyValue;
 
                 font.family: "serif";
                 font.pixelSize: 32;
                 textFormat: Text.RichText;
-                text: backend.correctness;
+                text: backend.accuracy;
                 width: parent.width;
                 wrapMode: Text.Wrap;
             }

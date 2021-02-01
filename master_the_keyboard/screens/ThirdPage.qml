@@ -21,15 +21,4 @@ Item {
         x: parent.width/2 - title.width/2;
         y: parent.height/35;
     }
-
-    Text {
-        id: textUsername;
-
-        font.family: "serif";
-        font.pixelSize: parent.height/25;
-        text: backend.userNameInput
-        anchors.right: parent.right
-        anchors.rightMargin: 40
-        y: parent.height/35;
-    }
 }

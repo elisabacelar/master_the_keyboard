@@ -11,9 +11,9 @@ typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
 
 class Metrics {
     public:
-        QString getCorrectness();
-        QString getSpeed();
-        void updateCorrectness(int errors, int hits);
+        int getAccuracy();
+        int getSpeed();
+        void updateAccuracy(int errors, int hits);
         QString compareText(const QString& reference, const QString& other);
         void resetMetrics();
         void setStartTime();
