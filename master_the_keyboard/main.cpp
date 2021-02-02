@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQuickStyle>
 #include <QQmlApplicationEngine>
 #include "BackEnd.h"
@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     qmlRegisterType<BackEnd>("local.api.backend", 1, 0, "BackEnd");
 

@@ -5,6 +5,7 @@
         <file>screens/oldMain.qml</file>
         <file>screens/ThirdPage.qml</file>
         <file>screens/Typing.qml</file>
+        <file>screens/ConfigPage.qml</file>
     </qresource>
     <qresource prefix="/img">
         <file>images/background.jpg</file>

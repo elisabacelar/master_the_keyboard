@@ -61,6 +61,9 @@ class BackEnd : public QObject
         Q_INVOKABLE void saveMetrics();
         void saveSpeed();
         void saveAccuracy();
+        Q_INVOKABLE void getDataHistory();
+        Q_INVOKABLE void clearUserData();
+        Q_INVOKABLE void deleteAccount();
     signals:
         void inputTextChanged();
         void displayedTextChanged();
@@ -76,12 +79,13 @@ class BackEnd : public QObject
         bool _loginWindowVisibility;
         QString _userNameInput {};
         QSqlDatabase _db;
-        QString _userName;
         int _accuracy {0};
         int _speed {0};
         Metrics _textVerification;
         TimePoint _exerciseStartTime;
         bool _isExerciseOngoing {false};
+        int _speedHistory[100] = {0};
+        int _accuracyHistory[100] = {0};
 };
 
 #endif

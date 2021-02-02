@@ -43,6 +43,7 @@ Item {
         id: starButton
 
         text: qsTr("Get Started")
+        font.pointSize: 12
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         onClicked: {
@@ -176,6 +177,7 @@ Item {
                 height: 40
 
                 text: qsTr("Continue")
+                font.pointSize: 11
                 enabled: (backend.userNameInput.length > 0)
                 onClicked: {
                     stack.push(typingPage);

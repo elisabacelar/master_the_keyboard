@@ -75,6 +75,7 @@ Item {
         width: 2*textDisplay.height
         height: textDisplay.height
         text: qsTr("Next")
+        font.pointSize: 12
 
         onClicked: {
             backend.saveMetrics()
@@ -92,9 +93,11 @@ Item {
         width: 2*textDisplay.height
         height: textDisplay.height
         text: qsTr("Finish")
+        font.pointSize: 12
 
         onClicked: {
             backend.saveMetrics()
+            backend.getDataHistory()
             stack.push(third_page);
         }
     }

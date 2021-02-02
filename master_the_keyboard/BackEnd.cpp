@@ -236,3 +236,43 @@ void BackEnd::saveMetrics()
         qWarning() << "Saving metrics - ERROR: " << query.lastError().text();
     }
 }
+
+void BackEnd::getDataHistory()
+{
+    QSqlQuery query(_db);
+    if(!query.exec("select * from '"+_userNameInput+"'"))
+    {
+        qWarning() << "Reading database - ERROR: " << query.lastError().text();
+        return;
+    }
+
+    int id = 0;
+    while(query.next())
+    {
+        _speedHistory[id] = query.value("speed").toInt();
+        _accuracyHistory[id] = query.value("accuracy").toInt();
+        id++;
+    }
+}
+
+void BackEnd::clearUserData()
+{
+    QSqlQuery query(_db);
+    if(!query.exec("DELETE from '"+_userNameInput+"'"))
+    {
+        qWarning() << "Delete user data - ERROR: " << query.lastError().text();
+    }
+}
+
+void BackEnd::deleteAccount()
+{
+    QSqlQuery query(_db);
+    if(!query.exec("DELETE from users where username='"+_userNameInput+"'"))
+    {
+        qWarning() << "Delete account - ERROR: " << query.lastError().text();
+    }
+    if(!query.exec("DROP TABLE IF EXISTS '"+_userNameInput+"'"))
+    {
+        qWarning() << "Delete User Table - ERROR: " << query.lastError().text();
+    }
+}

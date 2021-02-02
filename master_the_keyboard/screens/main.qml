@@ -32,14 +32,34 @@ ApplicationWindow {
             }
 
             ToolButton {
-                id: resultsButtom
+                id: configButtom
 
                 width: 40
                 height: parent.height
                 anchors.left: homeButtom.right
                 anchors.leftMargin: 10
+                text: qsTr("OPTIONS")
+                visible: (backend.userNameInput.length > 0)
+                onClicked:
+                {
+                    stack.push(configurationPage);
+                }
+            }
+
+            ToolButton {
+                id: resultsButtom
+
+                width: 40
+                height: parent.height
+                anchors.left: configButtom.right
+                anchors.leftMargin: 10
                 text: qsTr("RESULTS")
-                onClicked: stack.push(third_page);
+                visible: (backend.userNameInput.length > 0)
+                onClicked:
+                {
+                    backend.getDataHistory()
+                    stack.push(third_page);
+                }
             }
 
             ToolButton {
@@ -115,5 +135,9 @@ ApplicationWindow {
     Component {
         id: third_page
         ThirdPage {}
+    }
+    Component {
+        id: configurationPage
+        ConfigPage {}
     }
 }
