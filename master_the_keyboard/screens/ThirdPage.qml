@@ -48,62 +48,77 @@ Item {
         anchors.bottomMargin: 10
 
         ChartView {
-            id: speedChart
+            id: accuracyChart
             width: parent.width/2
             height: parent.height
             anchors.left: charts.left
             anchors.leftMargin: 0
-            //title: "SPEED HISTORY"
             antialiasing: true
-
-    //        LineSeries {
-    //            //name: "SPEED HISTORY"
-    //            XYPoint { x: 1; y: backend.speedHistory[0] }
-    //            XYPoint { x: 2; y: backend.speedHistory[1] }
-    //            XYPoint { x: 3; y: backend.speedHistory[2] }
-    //            XYPoint { x: 4; y: backend.speedHistory[3] }
-    //            XYPoint { x: 5; y: backend.speedHistory[4] }
-    //            XYPoint { x: 6; y: backend.speedHistory[5] }
-    //        }
-            //TESTE
-            LineSeries {
-                name: "SPEED HISTORY"
-                XYPoint { x: 1; y: 2 }
-                XYPoint { x: 2; y: 4 }
-                XYPoint { x: 3; y: 6 }
-                XYPoint { x: 4; y: 8 }
-                XYPoint { x: 5; y: 2 }
-                XYPoint { x: 6; y: 1 }
+            axes: [
+                ValueAxis{
+                    id: accuracyXAxis
+                    min: 1
+                    max: 30
+                },
+                ValueAxis{
+                    id: accuracyYAxis
+                    min: 0
+                    max: 100
+                }
+            ]
+            Component.onCompleted: {
+                //Qt.createQmlObject("import QtQuick 2.0; import QtCharts 2.0; ValueAxis { min: " + min + "; max: " + max + " }", chartView);
+                var series = accuracyChart.createSeries(ChartView.SeriesTypeLine,
+                                                        "ACCURACY HISTORY",
+                                                        accuracyXAxis, accuracyYAxis);
+                series.pointsVisible = true;
+                series.color = Qt.rgba(Math.random(),Math.random(),Math.random(),1);
+                 // connect onHovered signal to a function
+                series.hovered.connect(function(point, state){ console.log(point); });
+                var listLength = backend.accuracyHistory.length;
+                var y = 0;
+                for(var x=1; x<=listLength; x++)
+                {
+                    y = backend.accuracyHistory[listLength-x];
+                    series.append(x, y);
+                }
             }
         }
 
         ChartView {
-            id: accuracyChart
+            id: speedChart
             width: parent.width/2
             height: parent.height
-            anchors.left: speedChart.right
+            anchors.left: accuracyChart.right;
             anchors.leftMargin: 0
-            //title: "ACCURACY HISTORY"
             antialiasing: true
-
-    //        LineSeries {
-    //            //name: "ACCURACY HISTORY"
-    //            XYPoint { x: 1; y: backend.accuracyHistory[0] }
-    //            XYPoint { x: 2; y: backend.accuracyHistory[1] }
-    //            XYPoint { x: 3; y: backend.accuracyHistory[2] }
-    //            XYPoint { x: 4; y: backend.accuracyHistory[3] }
-    //            XYPoint { x: 5; y: backend.accuracyHistory[4] }
-    //            XYPoint { x: 6; y: backend.accuracyHistory[5] }
-    //        }
-            //TESTE
-            LineSeries {
-                name: "ACCURACY HISTORY"
-                XYPoint { x: 1; y: 2 }
-                XYPoint { x: 2; y: 4 }
-                XYPoint { x: 3; y: 6 }
-                XYPoint { x: 4; y: 8 }
-                XYPoint { x: 5; y: 2 }
-                XYPoint { x: 6; y: 1 }
+            axes: [
+                ValueAxis{
+                    id: speedXAxis
+                    min: 1
+                    max: 30
+                },
+                ValueAxis{
+                    id: speedYAxis
+                    min: 0
+                    max: 150
+                }
+            ]
+            Component.onCompleted: {
+                var series = speedChart.createSeries(ChartView.SeriesTypeLine,
+                                                     "SPEED HISTORY", speedXAxis,
+                                                     speedYAxis);
+                series.pointsVisible = true;
+                series.color = Qt.rgba(Math.random(),Math.random(),Math.random(),1);
+                // connect onHovered signal to a function
+                series.hovered.connect(function(point, state){ console.log(point); });
+                var listLength = backend.speedHistory.length;
+                var y = 0;
+                for(var x=1; x<=listLength; x++)
+                {
+                    y = backend.speedHistory[listLength-x];
+                    series.append(x, y);
+                }
             }
         }
     }

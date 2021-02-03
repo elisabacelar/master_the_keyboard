@@ -13,6 +13,8 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<BackEnd>("local.api.backend", 1, 0, "BackEnd");
 
+    qRegisterMetaType<int*>("int*");
+
     QQmlApplicationEngine engine;
 
     engine.load(QUrl(QStringLiteral("qrc:/qml/screens/main.qml")));

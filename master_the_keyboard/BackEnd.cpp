@@ -246,13 +246,23 @@ void BackEnd::getDataHistory()
         return;
     }
 
-    int id = 0;
-    while(query.next())
+    query.last();
+    QVariantList accuracyHistory;
+    QVariantList speedHistory;
+
+
+    int it = 0;
+    while(it<30)
     {
-        _speedHistory[id] = query.value("speed").toInt();
-        _accuracyHistory[id] = query.value("accuracy").toInt();
-        id++;
+        accuracyHistory.append(query.value("accuracy"));
+        speedHistory.append(query.value("speed"));
+        ++it;
+        if(!query.previous())
+            break;
     }
+
+    this->setAccuracyHistory(accuracyHistory);
+    this->setSpeedHistory(speedHistory);
 }
 
 void BackEnd::clearUserData()
@@ -276,3 +286,38 @@ void BackEnd::deleteAccount()
         qWarning() << "Delete User Table - ERROR: " << query.lastError().text();
     }
 }
+
+QVariantList BackEnd::getAccuracyHistory()
+{
+    return _accuracyHistory;
+}
+
+void BackEnd::setAccuracyHistory(const QVariantList accuracyHistory)
+{
+    if (accuracyHistory == _accuracyHistory)
+        return;
+    _accuracyHistory.clear();
+    int listLength = accuracyHistory.length();
+    for(int it=0;it<listLength;++it) {
+        _accuracyHistory.append(accuracyHistory[it]);
+    }
+    emit accuracyHistoryChanged();
+}
+
+QVariantList BackEnd::getSpeedHistory()
+{
+    return _speedHistory;
+}
+
+void BackEnd::setSpeedHistory(const QVariantList speedHistory)
+{
+    if (speedHistory == _speedHistory)
+        return;
+    _speedHistory.clear();
+    int listLength = speedHistory.length();
+    for(int it=0;it<listLength;++it) {
+        _speedHistory.append(speedHistory[it]);
+    }
+        emit speedHistoryChanged();
+}
+

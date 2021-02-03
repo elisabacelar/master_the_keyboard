@@ -31,6 +31,10 @@ class BackEnd : public QObject
                accuracyChanged)
     Q_PROPERTY(int speed READ getSpeed WRITE setSpeed NOTIFY \
                speedChanged)
+    Q_PROPERTY(QVariantList accuracyHistory READ getAccuracyHistory WRITE setAccuracyHistory \
+               NOTIFY accuracyHistoryChanged)
+    Q_PROPERTY(QVariantList speedHistory READ getSpeedHistory WRITE setSpeedHistory NOTIFY \
+               speedHistoryChanged)
 
     public:
         explicit BackEnd(QObject* parent = nullptr);
@@ -49,6 +53,10 @@ class BackEnd : public QObject
         void setAccuracy(const int accuracy);
         int getSpeed();
         void setSpeed(const int speed);
+        QVariantList getAccuracyHistory();
+        void setAccuracyHistory(const QVariantList accuracyHistory);
+        QVariantList getSpeedHistory();
+        void setSpeedHistory(const QVariantList speedHistory);
 
         bool isLoginWindowVisible();
         void setLoginWindowVisibility(bool visibility);
@@ -71,6 +79,8 @@ class BackEnd : public QObject
         void userNameChanged();
         void accuracyChanged();
         void speedChanged();
+        void accuracyHistoryChanged();
+        void speedHistoryChanged();
     private:
         MarkovChain _mChain;
         QString _inputText;
@@ -84,8 +94,8 @@ class BackEnd : public QObject
         Metrics _textVerification;
         TimePoint _exerciseStartTime;
         bool _isExerciseOngoing {false};
-        int _speedHistory[100] = {0};
-        int _accuracyHistory[100] = {0};
+        QVariantList _speedHistory;
+        QVariantList _accuracyHistory;
 };
 
 #endif
