@@ -54,28 +54,24 @@ Item {
             anchors.left: charts.left
             anchors.leftMargin: 0
             antialiasing: true
-            axes: [
-                ValueAxis{
-                    id: accuracyXAxis
-                    min: 1
-                    max: 30
-                },
-                ValueAxis{
-                    id: accuracyYAxis
-                    min: 0
-                    max: 100
-                }
-            ]
             Component.onCompleted: {
-                //Qt.createQmlObject("import QtQuick 2.0; import QtCharts 2.0; ValueAxis { min: " + min + "; max: " + max + " }", chartView);
+                var listLength = backend.accuracyHistory.length;
+                var xAxis = Qt.createQmlObject("import QtQuick 2.0; import QtCharts " +
+                                               "2.0; ValueAxis { min: " + 1 + "; max: " +
+                                               listLength + "; }", accuracyChart);
+                var yAxis = Qt.createQmlObject("import QtQuick 2.0; import QtCharts " +
+                                               "2.0; ValueAxis { min: " +
+                backend.accuracyHistory.reduce(function(a,b) {return Math.min(a,b)}) +
+                                               "; max: " +
+                backend.accuracyHistory.reduce(function(a,b) {return Math.max(a,b)}) +
+                                               "; }", accuracyChart);
                 var series = accuracyChart.createSeries(ChartView.SeriesTypeLine,
-                                                        "ACCURACY HISTORY",
-                                                        accuracyXAxis, accuracyYAxis);
+                                                        "ACCURACY HISTORY", xAxis,
+                                                        yAxis);
                 series.pointsVisible = true;
                 series.color = Qt.rgba(Math.random(),Math.random(),Math.random(),1);
                  // connect onHovered signal to a function
                 series.hovered.connect(function(point, state){ console.log(point); });
-                var listLength = backend.accuracyHistory.length;
                 var y = 0;
                 for(var x=1; x<=listLength; x++)
                 {
@@ -92,27 +88,23 @@ Item {
             anchors.left: accuracyChart.right;
             anchors.leftMargin: 0
             antialiasing: true
-            axes: [
-                ValueAxis{
-                    id: speedXAxis
-                    min: 1
-                    max: 30
-                },
-                ValueAxis{
-                    id: speedYAxis
-                    min: 0
-                    max: 150
-                }
-            ]
             Component.onCompleted: {
+                var listLength = backend.speedHistory.length;
+                var xAxis = Qt.createQmlObject("import QtQuick 2.0; import QtCharts " +
+                                               "2.0; ValueAxis { min: " + 1 + "; max: " +
+                                               listLength + "; }", speedChart);
+                var yAxis = Qt.createQmlObject("import QtQuick 2.0; import QtCharts " +
+                                               "2.0; ValueAxis { min: " +
+                backend.speedHistory.reduce(function(a,b) {return Math.min(a,b)}) +
+                                               "; max: " +
+                backend.speedHistory.reduce(function(a,b) {return Math.max(a,b)}) +
+                                               "; }", speedChart);
                 var series = speedChart.createSeries(ChartView.SeriesTypeLine,
-                                                     "SPEED HISTORY", speedXAxis,
-                                                     speedYAxis);
+                                                     "SPEED HISTORY", xAxis, yAxis);
                 series.pointsVisible = true;
                 series.color = Qt.rgba(Math.random(),Math.random(),Math.random(),1);
                 // connect onHovered signal to a function
                 series.hovered.connect(function(point, state){ console.log(point); });
-                var listLength = backend.speedHistory.length;
                 var y = 0;
                 for(var x=1; x<=listLength; x++)
                 {
