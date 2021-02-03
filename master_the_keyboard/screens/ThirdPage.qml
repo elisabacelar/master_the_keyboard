@@ -55,6 +55,7 @@ Item {
             anchors.leftMargin: 0
             antialiasing: true
             Component.onCompleted: {
+                accuracyChart.removeAllSeries();
                 var listLength = backend.accuracyHistory.length;
                 var xAxis = Qt.createQmlObject("import QtQuick 2.0; import QtCharts " +
                                                "2.0; ValueAxis { min: " + 1 + "; max: " +
@@ -89,6 +90,7 @@ Item {
             anchors.leftMargin: 0
             antialiasing: true
             Component.onCompleted: {
+                speedChart.removeAllSeries();
                 var listLength = backend.speedHistory.length;
                 var xAxis = Qt.createQmlObject("import QtQuick 2.0; import QtCharts " +
                                                "2.0; ValueAxis { min: " + 1 + "; max: " +
