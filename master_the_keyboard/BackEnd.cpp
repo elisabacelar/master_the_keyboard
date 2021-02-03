@@ -230,6 +230,9 @@ void BackEnd::createNewTable()
 
 void BackEnd::saveMetrics()
 {
+    // this represents a lesson that wasn't started, therefore it shoudn't be stored in the DB
+    if (!_speed && _accuracy == 100) return;
+
     QSqlQuery query(_db);
     if(!query.exec("INSERT INTO '"+_userNameInput+"' (speed, accuracy) VALUES ('"+QString("%1").arg(_speed)+"', '"+QString("%1").arg(_accuracy)+"')"))
     {

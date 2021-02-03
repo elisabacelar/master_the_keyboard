@@ -102,6 +102,7 @@ Item {
         font.pointSize: 12
 
         onClicked: {
+            backend.saveMetrics()
             backend.getDataHistory()
             stack.push(third_page);
         }
