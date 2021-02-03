@@ -6,7 +6,7 @@ import QtQuick.Window 2.2
 import local.api.backend 1.0
 
 Item {
-    id: configurationScreen
+    id: settingsScreen
     Image {
         id:backgroundImage;
         anchors.fill:parent;
@@ -39,7 +39,7 @@ Item {
     }
 
     Rectangle {
-        id: configBox
+        id: settingBox
         width: 0.9*parent.width
         height: 0.8*parent.height
         color: "#f3f4f4"
@@ -58,7 +58,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
 
             Label {
-                id: config1;
+                id: setting1;
 
                 font.pointSize: 12
                 wrapMode: Text.WordWrap
@@ -69,14 +69,14 @@ Item {
             }
 
             Label {
-                id: config11;
+                id: setting11;
 
                 font.pointSize: 12
                 wrapMode: Text.WordWrap
                 text: "Deleting your data is permanent, but your profile will remain active."
                 anchors.left: parent.left
                 anchors.leftMargin: 0.01*parent.width
-                anchors.top: config1.bottom
+                anchors.top: setting1.bottom
                 anchors.topMargin: 0
                 anchors.right: clearDataButton.left
                 anchors.rightMargin: 0.02*parent.width
@@ -108,7 +108,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
 
             Label {
-                id: config2;
+                id: setting2;
 
                 font.pointSize: 12
                 wrapMode: Text.WordWrap
@@ -119,14 +119,14 @@ Item {
             }
 
             Label {
-                id: config21;
+                id: setting21;
 
                 font.pointSize: 12
                 wrapMode: Text.WordWrap
                 text: "Deleting your profile is permanent and will remove all saved data."
                 anchors.left: parent.left
                 anchors.leftMargin: 0.01*parent.width
-                anchors.top: config2.bottom
+                anchors.top: setting2.bottom
                 anchors.topMargin: 0
                 anchors.right: deleteProfileButton.left
                 anchors.rightMargin: 0.02*parent.width
@@ -138,7 +138,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
                 anchors.rightMargin: 0.01*parent.width
-                text: qsTr("Delte")
+                text: qsTr("Delete")
                 font.pointSize: 12
                 onClicked: {
                     backend.deleteAccount()
