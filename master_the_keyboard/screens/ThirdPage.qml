@@ -11,33 +11,21 @@ Item {
     Image {
         id:backgroundImage;
         anchors.fill:parent;
-        source: "qrc:/img/images/background.png";
+        source: "qrc:/img/images/hexagon.jpg";
     }
 
     Text {
         id: title;
 
-        font.family: "serif";
-        font.pixelSize: parent.height/25;
+        font.family: "serif"
         text: "Results";
+        font.italic: true
+        font.pixelSize: 19
+        font.bold: true
         x: parent.width/2 - title.width/2;
         y: parent.height/35;
     }
 
-    Button {
-        id: tryAgainButton
-
-        text: qsTr("Try again")
-        font.pointSize: 12
-        anchors.top: parent.top
-        anchors.topMargin: 10
-        anchors.right: parent.right
-        anchors.rightMargin: 10
-        onClicked: {
-            backend.resetText()
-            stack.push(typingPage);
-        }
-    }
 
     Item {
         id: charts
@@ -50,7 +38,7 @@ Item {
         ChartView {
             id: accuracyChart
             width: parent.width/2
-            height: parent.height
+            height: 0.7*parent.height
             anchors.left: charts.left
             anchors.leftMargin: 0
             antialiasing: true
@@ -85,7 +73,7 @@ Item {
         ChartView {
             id: speedChart
             width: parent.width/2
-            height: parent.height
+            height: 0.7*parent.height
             anchors.left: accuracyChart.right;
             anchors.leftMargin: 0
             antialiasing: true
@@ -116,4 +104,26 @@ Item {
             }
         }
     }
+    Button {
+        id: tryAgainButton
+        text: "Practice more"
+        highlighted: false
+        clip: false
+        font.bold: true
+        font.family: "serif"
+
+        font.pointSize: 12
+        x: parent.width/2 - tryAgainButton.width/2;
+        y: 0.85*parent.height;
+        onClicked: {
+            backend.resetText()
+            stack.push(typingPage);
+        }
+    }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

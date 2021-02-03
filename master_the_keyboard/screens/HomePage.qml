@@ -13,7 +13,7 @@ Item {
         id:backgroundImage;
 
         anchors.fill:parent;
-        source: "qrc:/img/images/background.png";
+        source: "qrc:/img/images/hexagon.jpg";
     }
 
     Text {
@@ -21,7 +21,7 @@ Item {
 
         font.family: "serif";
         font.pixelSize: 10;
-        text: qsTr("Image by Michael Schwarzenberger from Pixabay <https://pixabay.com/>");
+        text: qsTr("Millions of royalty free png images <https://pngtree.com/>")
         x: parent.width-width;
         y: parent.height-height;
     }
@@ -29,21 +29,38 @@ Item {
     Text {
         id: title;
 
-        font.family: "serif";
-        font.pixelSize: parent.height/7;
+        font.family: "serif"
         text: "Master The Keyboard";
+        font.italic: true
+        style: Text.Outline
+        fontSizeMode: Text.FixedSize
+        textFormat: Text.AutoText
+        font.pixelSize: 80
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
         font.bold: true
         anchors.top: parent.top
         anchors.topMargin: parent.height/10
         x: parent.width/2 - title.width/2;
-        color: "#0c1faa"
+        y: 80
+        width: 500
+        height: 80
+        color: "#424986"
     }
 
     Button {
         id: starButton
+        width: 247
+        height: 96
 
         text: qsTr("Get Started")
-        font.pointSize: 12
+        font.underline: false
+        font.italic: false
+        anchors.verticalCenterOffset: 45
+        anchors.horizontalCenterOffset: 1
+        font.bold: true
+        font.family: "serif"
+        font.pointSize: 25
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         onClicked: {
@@ -186,3 +203,9 @@ Item {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

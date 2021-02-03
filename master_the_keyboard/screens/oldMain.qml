@@ -40,7 +40,7 @@ ApplicationWindow {
         id:backgroundImage;
 
         anchors.fill:parent;
-        source: "qrc:/img/images/background.png";
+        source: "qrc:/img/images/hexagon.jpg";
     }
     Item {
         id: applicationArea;

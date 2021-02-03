@@ -22,17 +22,21 @@ Item {
         anchors.leftMargin: 0
         anchors.topMargin: 0
         anchors.fill:parent;
-        source: "qrc:/img/images/background.png";
+        source: "qrc:/img/images/hexagon.jpg";
     }
 
     Text {
         id: title;
 
         font.family: "serif";
-        font.pixelSize: parent.height/25;
         text: "Master The Keyboard";
+        style: Text.Outline
+        font.italic: true
+        font.bold: true
+        font.pixelSize: 50
         x: parent.width/2 - title.width/2;
         y: parent.height/35;
+        color: "#424986"
     }
 
     Item {
@@ -41,7 +45,7 @@ Item {
         height: outputText.height*1.3;
         width: 3*parent.width/5;
         x: parent.width/20;
-        y: (parent.height-height)/9;
+        y: 3*(parent.height-height)/9;
         Rectangle {
             id: textDisplayBorder;
 
@@ -75,6 +79,7 @@ Item {
         width: 2*textDisplay.height
         height: textDisplay.height
         text: qsTr("Next")
+        font.family: "serif"
         font.pointSize: 12
 
         onClicked: {
@@ -93,6 +98,7 @@ Item {
         width: 2*textDisplay.height
         height: textDisplay.height
         text: qsTr("Finish")
+        font.family: "serif"
         font.pointSize: 12
 
         onClicked: {
@@ -130,7 +136,7 @@ Item {
     }
 
     Item {
-        x: 20
+        x: userInput.x + userInput.width/4;
         anchors.top: userInputBox.bottom
         anchors.topMargin: 70
         Item {
@@ -200,7 +206,7 @@ Item {
     }
 
     Item {
-        x: 200
+        x: userInput.x + 3*userInput.width/4;
         anchors.top: userInputBox.bottom
         anchors.topMargin: 70
         Item {
@@ -233,7 +239,7 @@ Item {
                 horizontalAlignment: Text.AlignHCenter
                 width: parent.width;
                 height: 30
-                wrapMode: Text.Wrap; 
+                wrapMode: Text.Wrap;
             }
         }
 
@@ -255,3 +261,9 @@ Item {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

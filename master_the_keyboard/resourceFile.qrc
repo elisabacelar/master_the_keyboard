@@ -14,6 +14,7 @@
         <file>images/home-icon.png</file>
         <file>images/profile-icon.png</file>
         <file>images/menu-icon.png</file>
+        <file>images/hexagon.jpg</file>
     </qresource>
     <qresource prefix="/files">
         <file>brownCompact.txt</file>
